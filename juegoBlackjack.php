@@ -78,7 +78,6 @@
 
         ];
 
-        shuffle($deck);
         //Array con nombres de jugadores Random
         $namesRandom = ["Luis", "Tomás", "Ana", "Juan", "Alejandro", "Pedro", "María", "Sofía", "Carlos", "Marta", "Elena", "Javier", "Andrés", "Carmen", "Isabel", "David", "Raúl", "Patricia", "Laura"];
         
@@ -90,96 +89,49 @@
         $player4 = $namesRandom[3];
         $player5 = $namesRandom[4];
 
-        $array1= [];
-        $array2= [];
-        $array3= [];
-        $array4= [];
-        $array5= [];
+       
 
-        for ($i = 0; $i < 2; $i++) {
-            // Comprueba si hay cartas disponibles en el mazo
-            if (count($deck) > 0) {
-                // Reparte una carta al jugador 
-                $card1 = array_shift($deck);
-                $arrayPlayer1[] = $card1;
+        //Función para rellenar el array de los jugadores
+        function rellenarArrayJugadores (array $deck):array {
+            shuffle($deck);
+            
+            for ($i = 0; $i < 2; $i++) {
+                // Comprueba si hay cartas disponibles en el mazo
+                if (count($deck) > 0) {
+                    // Reparte una carta al jugador 
+                    $card1 = array_shift($deck);
+                    $deckPlayer[] = $card1;
+                }
             }
+            return $deckPlayer;
         }
+        //Creamos los 5 mazos con la función de antes
+        $deckPlayer1 = rellenarArrayJugadores($deck);
+        $deckPlayer2 = rellenarArrayJugadores($deck);
+        $deckPlayer3 = rellenarArrayJugadores($deck);
+        $deckPlayer4 = rellenarArrayJugadores($deck);
+        $deckPlayer5 = rellenarArrayJugadores($deck);
 
-        for ($i = 0; $i < 2; $i++) {
-            // Comprueba si hay cartas disponibles en el mazo
-            if (count($deck) > 0) {
-                // Reparte una carta al jugador 
-                $card1 = array_shift($deck);
-                $arrayPlayer2[] = $card1;
-            }
-        }
-
-        for ($i = 0; $i < 2; $i++) {
-            // Comprueba si hay cartas disponibles en el mazo
-            if (count($deck) > 0) {
-                // Reparte una carta al jugador 
-                $card1 = array_shift($deck);
-                $arrayPlayer3[] = $card1;
-            }
-        }
-
-        for ($i = 0; $i < 2; $i++) {
-            // Comprueba si hay cartas disponibles en el mazo
-            if (count($deck) > 0) {
-                // Reparte una carta al jugador 
-                $card1 = array_shift($deck);
-                $arrayPlayer4[] = $card1;
-            }
-        }
-
-        for ($i = 0; $i < 2; $i++) {
-            // Comprueba si hay cartas disponibles en el mazo
-            if (count($deck) > 0) {
-                // Reparte una carta al jugador 
-                $card1 = array_shift($deck);
-                $arrayPlayer5[] = $card1;
-            }
-        }
-
+       
          //PARTE USUARIO
 
-        echo '<div class="blackjack">';
-         echo "<div class='container'>";
-             echo "Jugador 1: <h3> $player1 </h3></br>";
-                foreach($arrayPlayer1 as $value){
-                    echo "<img src='" . $value["image"] . "' alt=''>";
-                }
-        echo "</div>";
+        function printCard (string $player, array $deckPlayer) {
 
-        echo "<div class='container'>";
-            echo "Jugador 2: <h3> $player2 </h3></br>";
-                foreach($arrayPlayer2 as $value){
-                     echo "<img src='" . $value["image"] . "' alt=''>";
-                }
-        echo "</div>";
+             echo "<div class='container'>";
+                 echo "Jugador 1: <h3> $player </h3></br>";
+                    foreach($deckPlayer as $value){
+                        echo "<img src='" . $value["image"] . "' alt=''>";
+                    }
+                 echo "</div>";
 
-        echo "<div class='container'>";
-            echo "Jugador 3: <h3> $player3 </h3></br>";
-                foreach($arrayPlayer3 as $value){
-                     echo "<img src='" . $value["image"] . "' alt=''>";
-                }
-        echo "</div>";
-
-        echo "<div class='container'>";
-            echo "Jugador 4: <h3> $player4 </h3></br>";
-                foreach($arrayPlayer2 as $value){
-                     echo "<img src='" . $value["image"] . "' alt=''>";
-                }
-        echo "</div>";
-
-        echo "<div class='container'>";
-            echo "Jugador 5: <h3> $player2 </h3></br>";
-                foreach($arrayPlayer2 as $value){
-                     echo "<img src='" . $value["image"] . "' alt=''>";
-                }
-        echo "</div>";
-
-
+            }
+            
+        printCard($player1,$deckPlayer1);
+        printCard($player2,$deckPlayer2);
+        printCard($player3,$deckPlayer3);
+        printCard($player4,$deckPlayer4);
+        printCard($player5,$deckPlayer5);    
+        
     ?>
     
 </body>

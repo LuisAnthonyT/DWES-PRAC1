@@ -14,6 +14,7 @@ body{
     justify-content: space-between;
     background-color: #004225;
     padding: 10px;
+    border-radius: 10px;
    
 }
 
@@ -39,5 +40,25 @@ img:hover{
     margin-bottom: 20px;
     text-align: center;
     padding: 10px;
+
+}
+.blackjack{
+    width: 80%;
+    margin: auto;
+    margin-bottom: 20px;
+    text-align: center;
+    justify-content: space-between;
+    background-color: #004225;
+    padding: 10px;
+   
+
+}
+.player{
+    width: 40%;
+    margin: auto;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 10px;
+    background-color: aqua;
 
 }
