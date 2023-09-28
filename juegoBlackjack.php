@@ -94,7 +94,7 @@
         //Función para rellenar el array de los jugadores
         function rellenarArrayJugadores (array $deck):array {
             shuffle($deck);
-            
+
             for ($i = 0; $i < 2; $i++) {
                 // Comprueba si hay cartas disponibles en el mazo
                 if (count($deck) > 0) {
@@ -106,6 +106,7 @@
             return $deckPlayer;
         }
         //Creamos los 5 mazos con la función de antes
+        $deckPlayer0 = rellenarArrayJugadores($deck);
         $deckPlayer1 = rellenarArrayJugadores($deck);
         $deckPlayer2 = rellenarArrayJugadores($deck);
         $deckPlayer3 = rellenarArrayJugadores($deck);
@@ -117,21 +118,33 @@
 
         function printCard (string $player, array $deckPlayer) {
 
-             echo "<div class='container'>";
-                 echo "Jugador 1: <h3> $player </h3></br>";
+             echo "<div class='blackjack'>";
+                 echo "Jugador : <h3> $player </h3></br>";
                     foreach($deckPlayer as $value){
                         echo "<img src='" . $value["image"] . "' alt=''>";
                     }
                  echo "</div>";
 
             }
-            
+
+       //BANCA
+
+        echo "<div class='banca'>";
+                 echo "Jugador : <h3> $player0 </h3></br>";
+                    foreach($deckPlayer0 as $value){
+                        echo "<img src='" . $value["image"] . "' alt=''>";
+                    }
+                 echo "</div>";
+                 
+        //JUGADORES
+        echo "<div class='containerBlackjack'>";
         printCard($player1,$deckPlayer1);
         printCard($player2,$deckPlayer2);
         printCard($player3,$deckPlayer3);
         printCard($player4,$deckPlayer4);
-        printCard($player5,$deckPlayer5);    
-        
+        printCard($player5,$deckPlayer5);   
+        echo "</div>" 
+
     ?>
     
 </body>
