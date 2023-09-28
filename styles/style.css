@@ -47,19 +47,25 @@ a{
     color: #FFF;
 }
 
+
 /* INCIO */
 .inicio{
-    
+    margin-top: 50px;
     width: 500px;
     height: 400px;
 }
+
+.index{
+    display: flex;
+    justify-content: center;
+}
 /* CARTA MÁS ALTA */
-img{
+.card{
     width: 110px;
     height: 130px;
     margin-right: 5px;
 }
-img:hover{
+.card:hover{
     transform: scale(1.1);
 }
 .resultados{
@@ -84,7 +90,7 @@ img:hover{
    
 }
 .containerBlackjack{
-    display: flex; /* Utiliza flexbox para alinear los divs en línea */
+    display: flex; 
     justify-content: space-between;
     width: 80%;
     margin: auto;
@@ -102,4 +108,9 @@ img:hover{
     color: #15181C;
 
 }
-
+/* AUTOR */
+.autor{
+    margin-top: 50px;
+    width: 330px;
+    height: 430px;
+}

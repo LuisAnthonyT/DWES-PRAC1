@@ -14,6 +14,10 @@
    
    <h1>Autor</h1>
    <h2>Luis Anthony Toapanta Bolaños</h2>
+
+   <div class="index">
+        <img class="autor" src="/img/luis.jpg" alt="img_luis">
+   </div>
     
 </body>
 </html>

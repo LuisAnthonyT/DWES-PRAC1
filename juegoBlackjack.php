@@ -163,10 +163,11 @@
              echo "<div class='blackjack'>";
                  echo "Jugador : <h3> $player </h3></br>";
                     foreach($deckPlayer as $value){
-                        echo "<img src='" . $value["image"] . "' alt=''>";
+                        echo "<img class='card' src='" . $value["image"] . "' alt=''>";
                     }
                     echo "</br>";
-                    echo "Puntos: $score $result";
+                    echo "Puntos: $score</p>";
+                    echo $result;
                  echo "</div>";
 
             }
@@ -175,7 +176,7 @@
         echo "<div class='banca'>";
                  echo "Jugador : <h3> $player0 </h3></br>";
                     foreach($deckPlayer0 as $value){
-                        echo "<img src='" . $value["image"] . "' alt=''>";
+                        echo "<img class='card' src='" . $value["image"] . "' alt=''>";
                     }
                     echo "</br>";
                     echo "Puntos: $scoreBanca";

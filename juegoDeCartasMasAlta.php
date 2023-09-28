@@ -138,14 +138,14 @@
         echo "<div class='container'>";
             echo "Jugador 1: <h3> $player1 </h3></br>";
                 foreach($arrayPlayer1 as $value){
-                    echo "<img src='" . $value["image"] . "' alt=''>";
+                    echo "<img class='card' src='" . $value["image"] . "' alt=''>";
                 }
         echo "</div>";
 
         echo "<div class='container'>";
             echo "Jugador 2: <h3> $player2 </h3></br>";
                 foreach($arrayPlayer2 as $value){
-                    echo "<img src='" . $value["image"] . "' alt=''>";
+                    echo "<img class='card' src='" . $value["image"] . "' alt=''>";
                 }
         echo "</div>";
 
