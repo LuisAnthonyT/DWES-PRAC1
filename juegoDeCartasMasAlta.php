@@ -8,12 +8,14 @@
 </head>
 <body>
     
-    <h1>Juego de cartas más alta</h1>
-    <h2>Luis Anthony Toapanta Bolaños</h2>
-
+    
     <?php 
         include_once('inc/nav.inc.php');
     ?>  
+
+    <h1>Juego de cartas más alta</h1>
+    <h2>Luis Anthony Toapanta Bolaños</h2>
+    
     <?php 
         //ARRAY CON CARTAS DE LA BARAJA FRANCESA
         $deck = [

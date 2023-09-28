@@ -7,12 +7,13 @@
     <title>Cartas más altas ganan</title>
 </head>
 <body>
-    <h1>Cartas más altas ganan</h1>
-    <h2>Luis Anthony Toapanta Bolaños</h2>
-
+    
     <?php 
         include_once('inc/nav.inc.php');
     ?>
+        <h1>Cartas más altas ganan</h1>
+        <h2>Luis Anthony Toapanta Bolaños</h2>
+
     <img class="inicio" src="img/index.png" alt="Baraja">
     
 </body>
