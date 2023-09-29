@@ -120,19 +120,22 @@
 
          //CALCULO DE PUNTOS
         
-        function total (array $deckPlayer):int {
+        function total (array $deckPlayer , array $deck):int {
             $sum = 0;
             foreach ($deckPlayer as $card) {
                 $sum += $card["value"];
+                
             }
+            
             return $sum;
         }
-        $scoreBanca = total($deckPlayer0);
-        $score1 = total($deckPlayer1);
-        $score2 = total($deckPlayer2);
-        $score3 = total($deckPlayer3);
-        $score4 = total($deckPlayer4);
-        $score5 = total($deckPlayer5);
+
+        $scoreBanca = total($deckPlayer0,$deck);
+        $score1 = total($deckPlayer1,$deck);
+        $score2 = total($deckPlayer2,$deck);
+        $score3 = total($deckPlayer3,$deck);
+        $score4 = total($deckPlayer4,$deck);
+        $score5 = total($deckPlayer5,$deck);
         
         //CALCULO DE RESULTADOS
         function results (int $scoreBanca,int $scorePlayer):string {
