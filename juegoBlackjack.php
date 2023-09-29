@@ -184,11 +184,11 @@
                  
         //JUGADORES
         echo "<div class='containerBlackjack'>";
-        printCard($player1,$deckPlayer1,$score1,$result1);
-        printCard($player2,$deckPlayer2,$score2,$result2);
-        printCard($player3,$deckPlayer3,$score3,$result3);
-        printCard($player4,$deckPlayer4,$score4,$result4);
-        printCard($player5,$deckPlayer5,$score5,$result5);   
+            printCard($player1,$deckPlayer1,$score1,$result1);
+            printCard($player2,$deckPlayer2,$score2,$result2);
+            printCard($player3,$deckPlayer3,$score3,$result3);
+            printCard($player4,$deckPlayer4,$score4,$result4);
+            printCard($player5,$deckPlayer5,$score5,$result5);   
         echo "</div>" 
 
     ?>
