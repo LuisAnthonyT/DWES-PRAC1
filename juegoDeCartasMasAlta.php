@@ -110,32 +110,32 @@
          $arrayPlayer2 = distributeCards($deck);
 
 
-        //A PARTIR DE AQUI SE HACE LA COMPARACIÓN DE CARTAS DE CADA JUGADOR (solo hay una comaparación, no es necesario una función)
-        
-        $cont1 = 0;
-        $cont2 = 0;
+        //A PARTIR DE AQUI SE HACE LA COMPARACIÓN DE CARTAS DE CADA JUGADOR (solo hay una comparación, no es necesario una función)
 
-            foreach($arrayPlayer1 as $card1){
-                foreach($arrayPlayer2 as $card2){
-                    if ($card1["value"] < $card2["value"]){
-                        $cont1++;
+                for($i=0; $i<count($arrayPlayer1); $i++){
+                    
+                    $score1 = $arrayPlayer1[$i]['value'];
+                    $score2 = $arrayPlayer2[$i]['value'];
+
+                    if ($score1> $score2){
+                        $score1 =+ 2;
                     }
-                    else if ($card2["value"] < $card1["value"]){
-                        $cont2++;
+                    else if ($score2 > $score1){
+                        $score2 =+ 2;
                     }
                     else{
-                        $cont1++;
-                        $cont2++;
+                        $score1 = $score1 + 1;
+                        $score2 = $score2 + 1;
                     }
                 }
     
-            }       
-
+              
+          
        //PARTE USUARIO
        function printPlayer (string $player, array $arrayPlayer) {
 
             echo "<div class='container'>";
-                echo "Jugador 1: <h3> $player </h3></br>";
+                echo "Jugador : <h3> $player </h3></br>";
                     foreach($arrayPlayer as $value){
                      echo "<img class='card' src='" . $value["image"] . "' alt=''>";
                     }
@@ -150,14 +150,14 @@
         //RESULTADOS
         echo "<div class='resultados'>";
                 echo "<h3>Resultado de la partida:</h3>";
-                    echo "$player1: $cont1 </br>";
-                    echo "$player2: $cont2</br>";
+                    echo "$player1: $score1 </br>";
+                    echo "$player2: $score2</br>";
 
-                    if ($cont1 < $cont2){
-                        echo "El ganador es: <strong>$player1</strong>";
+                    if ($score1 > $score2){
+                        echo "El ganador es: <span class='strong'> $player1 </span>";
                     } 
-                    else if ($cont2 < $cont1){
-                        echo "El ganador es: <strong>$player1</strong>";
+                    else if ($score2 > $score1){
+                        echo "El ganador es: <span class='strong'> $player2 </span>";
                     } else {
                         echo "Empate entre los dos jugadores";
                     }

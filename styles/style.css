@@ -76,6 +76,9 @@ a{
     padding: 10px;
 
 }
+.strong{
+    font-weight: bold;
+}
 
 /* JUEGO DE BLACKJACK */
 .blackjack{
