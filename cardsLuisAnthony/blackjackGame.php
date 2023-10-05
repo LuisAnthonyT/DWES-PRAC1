@@ -78,8 +78,8 @@
             ["suit" => "tréboles", "value" => "10", "image" => "img/baraja/tre_q.png"],
 
             //AS
-            // ["suit" => "AS", "value" => "1", "image" => "img/baraja/jok_1.png"],
-            // ["suit" => "AS", "value" => "1", "image" => "img/baraja/jok_2.png"]
+            ["suit" => "AS", "value" => "1", "image" => "img/baraja/jok_1.png"],
+            ["suit" => "AS", "value" => "1", "image" => "img/baraja/jok_2.png"]
 
         ];
 
@@ -97,7 +97,7 @@
        
 
         //Función para rellenar el array de los jugadores
-        function rellenarArrayJugadores (array $deck):array {
+        function fillDeckPlayer (array $deck):array {
             shuffle($deck);
 
             for ($i = 0; $i < 2; $i++) {
@@ -111,12 +111,12 @@
             return $deckPlayer;
         }
         //Creamos los 5 mazos con la función de antes
-        $deckPlayer0 = rellenarArrayJugadores($deck);
-        $deckPlayer1 = rellenarArrayJugadores($deck);
-        $deckPlayer2 = rellenarArrayJugadores($deck);
-        $deckPlayer3 = rellenarArrayJugadores($deck);
-        $deckPlayer4 = rellenarArrayJugadores($deck);
-        $deckPlayer5 = rellenarArrayJugadores($deck);
+        $deckPlayer0 = fillDeckPlayer($deck);
+        $deckPlayer1 = fillDeckPlayer($deck);
+        $deckPlayer2 = fillDeckPlayer($deck);
+        $deckPlayer3 = fillDeckPlayer($deck);
+        $deckPlayer4 = fillDeckPlayer($deck);
+        $deckPlayer5 = fillDeckPlayer($deck);
 
          //CALCULO DE PUNTOS
         

@@ -90,26 +90,21 @@
         $player2 = $namesRandom[1];
 
 
-        //FUNCIÓN PARA REPARTIR CARTAS
+        //REPARTO DE CARTAS 1 A 1 
 
-        function distributeCards(array $deck) :array{
             shuffle($deck);
             for ($i = 0; $i < 10; $i++) {
                 // Comprueba si hay cartas disponibles en el mazo
                 if (count($deck) > 0) {
                     // Reparte una carta al jugador 
                     $card1 = array_shift($deck);
-                    $arrayPlayer[] = $card1;
+                    $arrayPlayer1[] = $card1;
+                    shuffle($deck);
+                    $card2 = array_shift($deck);
+                    $arrayPlayer2[] = $card2;
                 }
             }
-            return $arrayPlayer;
-        }
-
-         //Array para cada jugador
-         $arrayPlayer1 = distributeCards($deck);
-         $arrayPlayer2 = distributeCards($deck);
-
-
+           
         //A PARTIR DE AQUI SE HACE LA COMPARACIÓN DE CARTAS DE CADA JUGADOR (solo hay una comparación, no es necesario una función)
 
                 for($i=0; $i<count($arrayPlayer1); $i++){
