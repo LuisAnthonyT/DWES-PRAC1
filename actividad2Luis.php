@@ -27,8 +27,8 @@
 
         //
 
+        $errorEmpty = false;
         if (isset($_POST['codigo'])){
-            $errorEmpty = false;
             foreach ($_POST as $key => $value) {
                 if (strlen($value) == 0) {
                     $errorEmpty = true;
