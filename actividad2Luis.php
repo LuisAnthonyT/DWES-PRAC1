@@ -23,127 +23,85 @@
         $exprDescr = "/^[a-zA-Z0-9\s]{50,}$/";
         $exprFabri = "/^[a-zA-Z0-9]{10,20}$/";
         $exprDate = "/^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}$/";
+        
+
+        //
 
         if (isset($_POST['codigo'])){
-
-            if (strlen($_POST['codigo']) > 0){
-                $_POST['codigo'] = trim($_POST['codigo']);
-
-                if (!preg_match($exprCode, $_POST['codigo'])) {
-                    $errorCode = "El código debe tener una letra seguida de un guion seguido de 5 dígitos";
+            $errorEmpty = false;
+            foreach ($_POST as $key => $value) {
+                if (strlen($value) == 0) {
+                    $errorEmpty = true;
+                    break; // Si se encuentra un campo vacío, salir del bucle
                 }
-            }
-            else {
-                $errorCodeEmpty = "El campo código esta vacio";
-            }
-
-        }
-
-        if (isset($_POST['nombre'])){
-            if( strlen($_POST['nombre']) > 0){
-                $_POST['nombre'] = trim($_POST['nombre']);
-
-                if (!preg_match($exprName, $_POST['nombre'])) {
-                    $errorName = "El nombre debe tener solo letras (mínimo 3 y máximo 20)";
-                }
-            } else {
-                $errorNameEmpty = "El campo name esta vacio";
-
-            }
-        }
-
-        if (isset($_POST['precio'])) {
-            if (strlen($_POST['precio']) > 0){
-                $_POST['precio'] = trim($_POST['precio']);
-
-                if (!preg_match($exprPrice, $_POST['precio'])) {
-                    $errorPrice = "El precio deber ser decimal";
-                }
-            } else {
-                $errorPriceEmpty = "El campo precio esta vacio";
-
-            }
+                else {
+                    $value = trim($value);
         
-        }
-
-        if (isset($_POST['descripcion'])){
-            if(strlen($_POST['descripcion']) > 0){
-                $_POST['descripcion'] =  trim($_POST['descripcion']);
-
-                if (!preg_match($exprDescr, $_POST['descripcion'])) {
-                    $errorDescription = "La descripción debe ser alfanumérico (mínimo 50 letras)";
+                    switch ($key) {
+                        case 'codigo':
+                            if (!preg_match($exprCode, $value)) {
+                                $errorCode = "El código debe tener una letra seguida de un guion seguido de 5 dígitos.";
+                            }
+                            break;
+                        case 'nombre':
+                            if (!preg_match($exprName, $value)) {
+                                $errorName = "El nombre debe contener entre 3 y 20 letras.";
+                            }
+                            break;
+                        case 'precio':
+                            if (!preg_match($exprPrice, $value)) {
+                                $errorPrice = "El precio debe ser un número válido.";
+                            }
+                            break;
+                        case 'descripcion':
+                            if (!preg_match($exprDescr, $value)) {
+                                $errorDescription = "La descripción debe tener al menos 50 caracteres alfanuméricos.";
+                            }
+                            break;
+                        case 'fabricante':
+                            if (!preg_match($exprFabri, $value)) {
+                                $errorFabri = "El fabricante debe tener entre 10 y 20 caracteres alfanuméricos.";
+                            }
+                            break;
+                        case 'fechaAdquisicion':
+                            if (!preg_match($exprDate, $value)) {
+                                $errorDate = "La fecha de adquisición debe tener el formato dd/mm/yyyy.";
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
-            } else {
-                $errorDesEmpty = "El campo descripcion esta vacio";
-
-            }
-           
-        }
-
-        if (isset($_POST['fabricante'])){
-            if(strlen($_POST['fabricante']) > 0){
-                $_POST['fabricante'] = trim($_POST['fabricante']);
-
-                if (!preg_match($exprFabri, $_POST['fabricante'])) {
-                    $errorFabri = "El fabricante deber ser alfanumérico (entre 10 y 20 letras).";
+                
                 }
-            } else {
-                $errorFabEmpty = "El campo fabricante esta vacio";
-
             }
-           
-        }
 
-        if (isset($_POST['fechaAdquisicion'])){
-            if(strlen($_POST['fechaAdquisicion']) > 0){
-                $_POST['fechaAdquisicion'] = trim($_POST['fechaAdquisicion']);
-            
-                if (!preg_match($exprDate, $_POST['fechaAdquisicion'])) {
-                    $errorDate = "La fecha debe tener un formato válido";
-                }
-            } else {
-                $errorAdEmpty = "El campo fecha de adquisicion esta vacio";
 
+            echo "<h2>Introduce los datos</h2>";
+
+            if($errorEmpty) {
+                echo "<h3> Hay campos incompletos</h3>";
             }
-        }
-    ?>
-
-    <h2>Introduce los datos</h2>
-        <?php 
+     
             if (isset($errorCode)){ 
                 echo "$errorCode  </br>";
             }
-            else {
-                echo "$errorCodeEmpty</br>";
-            }
-
+           
             if (isset($errorName)){
                 echo "$errorName </br>";
-            } else {
-                echo "$errorNameEmpty</br>";
-            }
+            } 
             if (isset($errorPrice)){
                  echo "$errorPrice </br>";
-            } else {
-                echo "$errorPriceEmpty </br>";
-            }
+            } 
             if (isset($errorDescription)){ 
                 echo "$errorDescription </br>";
-            } else {
-                echo "$errorDesEmpty </br>";
-            }
+            } 
             if (isset($errorFabri)) {
                 echo "$errorFabri </br>";
-            } else {
-                echo "$errorFabEmpty </br>";
-                
-            }
+            } 
             if (isset($errorDate)){
                  echo "$errorDate </br>";
-            } else {
-                echo "$errorAdEmpty </br>";
-
-            }
+            } 
         ?>
         <hr>
     <form action="#" method="post">
