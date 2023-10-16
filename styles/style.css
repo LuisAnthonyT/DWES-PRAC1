@@ -3,6 +3,7 @@
 body{
     font-family: 'Fira Sans', sans-serif;
     margin: 0; 
+   
 }
 h1,h2,h3,p{
     text-align: center;
@@ -48,21 +49,13 @@ form input[type="submit"]:hover {
 
 /* DIV DE ERRORES */
 .error{
-    margin-top: 15px !important;
     margin: 0 auto;
-    max-width: 600px;
-    padding: 1px;
-    background-color: #f8d7da;
-    border-radius: 10px;
-    border-color: #f5c6cb;
-    
+    font-weight: bold;
+    color: rgba(209, 24, 24, 0.829);
+    text-align: center;
+    margin-bottom: 5px;
 }
 
-.error p{
-    font-weight: bold;
-    color: #721c24;
-    text-align: center;
-}
 /* DIV DE TODO CORRECTO */
 .correct{
     margin-top: 15px !important;
