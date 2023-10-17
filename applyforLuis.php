@@ -19,13 +19,13 @@
         include_once('inc/functions.inc.php');
 
          //Expresiones para validar
-         $exprUser = "/^[A-Za-z ]+$/";
+         $exprUser = "/^[a-zA-Z]((\.|_|-)?[a-zA-Z0-9]+){3}$/";
          $exprName = "/^[A-Za-z ]+$/";
          $exprSurnames = "/^[\p{L} \-']+$/u"; 
          $exprDni = "/^\d{8}[A-Z]$/";
-         $exprStreet = "/^[A-Za-z0-9 ,.-]+$/";
-         $exprMail = "/^\S+@\S+\.\S+$/";
-         $exprNumber = "/^\d{9}$/";
+         $exprStreet = "/^[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?)*$/";
+         $exprMail = "/^[a-z0-9_\-]+(\.[_a-z0-9\-]+)*@([_a-z0-9\-]+\.)+([a-z]{2}|aero|asia|arpa|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|xxx)$/";
+         $exprNumber = "/^0{0,2}([\+]?[\d]{1,3} ?)?([\(]([\d]{2,3})[)] ?)?[0-9][0-9 \-]{6,}( ?([xX]|([eE]xt[\.]?)) ?([\d]{1,5}))?$/";
          $exprDate = "/^\d{4}-\d{2}-\d{2}$/";
          
          if (!empty($_POST)) {
@@ -34,14 +34,14 @@
                 $errores['user'] = "El campo usuario esta vacio";
             } else {
                 if (!validarDatos($exprUser, $_POST['user'])){
-                    $errores['user'] = "El usuario no es válido. Debe contener solo letras y espacios ";
+                    $errores['user'] = "El usuario debe comenzar con un carácter alfanumérico, al menos 4 caracteres de longitud, puede contener números pero no comenzar con uno. También puede contener guiones bajos, puntos o guiones, pero no al comienzo o al final o tener más de uno junto";
                 }
                 $user = trim($_POST['user']); 
             }
             if (empty($_POST['name'])) {
                 $errores['name'] = "El campo nombre esta vacio";
             } else {
-                if (!validarDatos($exprUser, $_POST['name'])){
+                if (!validarDatos($exprName, $_POST['name'])){
                     $errores['name'] = "El nombre no es válido. Debe contener solo letras y espacios ";
                 }
                 $name = trim($_POST['name']); 
@@ -49,7 +49,7 @@
             if (empty($_POST['surnames'])) {
                 $errores['surnames'] = "El campo apellidos esta vacio";
             } else {
-                if (!validarDatos($exprUser, $_POST['surnames'])){
+                if (!validarDatos($exprSurnames, $_POST['surnames'])){
                     $errores['surnames'] = "Los apellidos no son válidos. Debe contener solo letras y espacios ";
                 }
                 $surnames = trim($_POST['surnames']); 
@@ -57,7 +57,7 @@
             if (empty($_POST['dni'])) {
                 $errores['dni'] = "El campo dni esta vacio";
             } else {
-                if (!validarDatos($exprUser, $_POST['dni'])){
+                if (!validarDatos($exprDni, $_POST['dni'])){
                     $errores['dni'] = "El DNI no es válido. Debe tener 8 dígitos seguidos de una letra. ";
                 }
                 $dni = trim($_POST['dni']); 
@@ -65,7 +65,7 @@
             if (empty($_POST['street'])) {
                 $errores['street'] = "El campo dirrección esta vacio";
             } else {
-                if (!validarDatos($exprUser, $_POST['street'])){
+                if (!validarDatos($exprStreet, $_POST['street'])){
                     $errores['street'] = "La dirrección no es válida. Debe contener letras, espacios, guiones, puntos o comas. ";
                 }
                 $street = trim($_POST['street']); 
@@ -73,7 +73,7 @@
             if (empty($_POST['mail'])) {
                 $errores['mail'] = "El campo mail esta vacio";
             } else {
-                if (!validarDatos($exprUser, $_POST['mail'])){
+                if (!validarDatos($exprMail, $_POST['mail'])){
                     $errores['mail'] = "El mail no es válido. Debe contener letras, un @ y un dominio ";
                 }
                 $mail = trim($_POST['mail']); 
@@ -81,7 +81,7 @@
             if (empty($_POST['number'])) {
                 $errores['number'] = "El campo teléfono esta vacio";
             } else {
-                if (!validarDatos($exprUser, $_POST['number'])){
+                if (!validarDatos($exprNumber, $_POST['number'])){
                     $errores['number'] = "El teléfono no es válido. Debe contener 8 números";
                 }
                 $number = trim($_POST['number']); 
@@ -89,7 +89,7 @@
             if (empty($_POST['date'])) {
                 $errores['date'] = "El campo fecha de nacimiento esta vacio";
             } else {
-                if (!validarDatos($exprUser, $_POST['date'])){
+                if (!validarDatos($exprDate, $_POST['date'])){
                     $errores['date'] = "La fecha de nacimiento no es válida. Debe tener el formato 'YYYY-MM-DD'.";
                 }
                 $date = trim($_POST['date']); 
