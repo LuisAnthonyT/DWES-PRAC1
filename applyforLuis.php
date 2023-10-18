@@ -27,6 +27,8 @@
          $exprMail = "/^[a-z0-9_\-]+(\.[_a-z0-9\-]+)*@([_a-z0-9\-]+\.)+([a-z]{2}|aero|asia|arpa|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|xxx)$/";
          $exprNumber = "/^0{0,2}([\+]?[\d]{1,3} ?)?([\(]([\d]{2,3})[)] ?)?[0-9][0-9 \-]{6,}( ?([xX]|([eE]xt[\.]?)) ?([\d]{1,5}))?$/";
          $exprDate = "/^\d{4}-\d{2}-\d{2}$/";
+
+         $exito = false;
          
          if (!empty($_POST)) {
 
@@ -97,40 +99,45 @@
 
             //MENSAJES DE ERRORES
             if (empty($errores)) {
-                echo"<div class='correct'>";
-                    echo "<span> Datos Correctos </span>";
-                echo "</div>"; 
+                $exito = true;
             }
         }
     ?>
+    <?php  if ($exito): ?>
+
+        <div class='correct'>
+            <span> Datos Correctos </span>
+        </div>
+    <?php else: ?>    
 
     <h1>Oferta de trabajo</h1>
-    <form action="#" method="post">
-        Usuario: <input type="text" name="user">
-        <?php if (isset($errores['user'])) echo "<div class='error'>" . $errores['user'] . "</div>"; ?>
+        <form action="#" method="post">
+            Usuario: <input type="text" name="user" value="<?php echo isset($user) ? $user : null  ?>">
+            <?php if (isset($errores['user'])) echo "<div class='error'>" . $errores['user'] . "</div>"; ?>
 
-        Nombre: <input type="text" name="name">
-        <?php if (isset($errores['name'])) echo "<div class='error'>" . $errores['name'] . "</div>"; ?>
+            Nombre: <input type="text" name="name" value="<?php echo isset($name) ? $name : null  ?>">
+            <?php if (isset($errores['name'])) echo "<div class='error'>" . $errores['name'] . "</div>"; ?>
 
-        Apellidos: <input type="text" name="surnames">
-        <?php if (isset($errores['surnames'])) echo "<div class='error'>" . $errores['surnames'] . "</div>"; ?>
+            Apellidos: <input type="text" name="surnames" value="<?php echo isset($surnames) ? $surnames : null  ?>">
+            <?php if (isset($errores['surnames'])) echo "<div class='error'>" . $errores['surnames'] . "</div>"; ?>
 
-        DNI: <input type="text" name="dni">
-        <?php if (isset($errores['dni'])) echo "<div class='error'>" . $errores['dni'] . "</div>"; ?>
+            DNI: <input type="text" name="dni" value="<?php echo isset($dni) ? $dni : null  ?>">
+            <?php if (isset($errores['dni'])) echo "<div class='error'>" . $errores['dni'] . "</div>"; ?>
 
-        Dirección: <input type="text" name="street">
-        <?php if (isset($errores['street'])) echo "<div class='error'>" . $errores['street'] . "</div>"; ?>
+            Dirección: <input type="text" name="street" value="<?php echo isset($street) ? $street : null  ?>">
+            <?php if (isset($errores['street'])) echo "<div class='error'>" . $errores['street'] . "</div>"; ?>
 
-        Mail: <input type="text" name="mail">
-        <?php if (isset($errores['mail'])) echo "<div class='error'>" . $errores['mail'] . "</div>"; ?>
+            Mail: <input type="text" name="mail" value="<?php echo isset($mail) ? $mail : null  ?>">
+            <?php if (isset($errores['mail'])) echo "<div class='error'>" . $errores['mail'] . "</div>"; ?>
 
-        Teléfono: <input type="text" name="number">
-        <?php if (isset($errores['number'])) echo "<div class='error'>" . $errores['number'] . "</div>"; ?>
+            Teléfono: <input type="text" name="number" value="<?php echo isset($number) ? $number : null  ?>">
+            <?php if (isset($errores['number'])) echo "<div class='error'>" . $errores['number'] . "</div>"; ?>
 
-        Fecha de nacimiento: <input type="text" name="date">
-        <?php if (isset($errores['date'])) echo "<div class='error'>" . $errores['date'] . "</div>"; ?>
+            Fecha de nacimiento: <input type="text" name="date" value="<?php echo isset($date) ? $date : null  ?>">
+            <?php if (isset($errores['date'])) echo "<div class='error'>" . $errores['date'] . "</div>"; ?>
 
-        <input type="submit" value="Enviar">
-    </form>
+            <input type="submit" value="Enviar">
+        </form>
+    <?php endif; ?>
 </body>
 </html>
