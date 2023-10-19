@@ -31,6 +31,18 @@ form input[type="text"] {
     margin-top: 5px;
 }
 
+/* Estilos para los campos de entrada de file */
+form input[type="file"] {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+
 /* Estilos para el botón de enviar */
 form input[type="submit"] {
     background-color: #007bff;
