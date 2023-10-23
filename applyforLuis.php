@@ -110,7 +110,7 @@
                                                 break;
                     case UPLOAD_ERR_NO_FILE: echo 'No se ha podido subir el fichero. ';
                                                 break;
-                    default:                 echo 'Erro indeterminado. ';
+                    default:                 echo 'Error indeterminado. ';
                     
                 }
                 exit();
@@ -125,11 +125,14 @@
             //Si no hay error con el tipo, se comprueba si el archivo es uno recién subido al servidor
             if (is_uploaded_file($_FILES['curriculum']['tmp_name']) === true) {
                 //
-                $nameFile = $dni . $name . $surnames;
-                $nuevaRuta = "./cvs/". $nameFile . ".pdf";
-                if (is_file($nuevaRuta) === true) {
-                    echo 'Error: Ya existe un archivo con el mismo nombre.';
-                    exit();
+                if (isset($name) && isset($dni) && isset($surnames)) {
+
+                    $nameFile = $dni . $name . $surnames;
+                    $nuevaRuta = "./cvs/". $nameFile . ".pdf";
+                    if (is_file($nuevaRuta) === true) {
+                        echo 'Error: Ya existe un archivo con el mismo nombre.';
+                        exit();
+                    }
                 }
 
                 //Se cambia de ruta el archivo desde el directorio temporal
@@ -138,6 +141,9 @@
                 } else {
                     echo 'Error: Posible ataque. Nombre: '. $nameFile;
                 }
+            }
+            else {
+                echo "Hay campos incompletos";
             }
 
             //MENSAJES DE ERRORES
