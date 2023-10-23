@@ -33,15 +33,15 @@
         private function getAge (): int {
             //Se obtiene la fecha en formato a partir de la función getDateBirthday
             $dateBirthday = $this->getDateBirthday($this->birthday);
-            $today = new DateTime();
-            $interval = $dateBirthday->diff($today);
-            $age = $interval->y;
+            $today = new strtotime('now');
+            $interval = $today - $dateBirthday;
+            $age = floor($interval / (365 * 24 * 60 * 60));
             return $age;
             
         }
 
-        private function getDateBirthday ($birthday) { //$birtday esta en segundos
-            return $dateBirthday = DateTime::createFromFormat('d-m-Y', $birthday);
+        private function getDateBirthday () { //$birtday esta en segundos
+            return strtotime(date('Y-m-d', $this->birthday));
         }
 
         public function __toString(): string {
@@ -49,7 +49,7 @@
                 "<article class='user'>" .
                 "<h1>{$this->name} {$this->surname1} {$this->surname2} {$this->id}</h1>" .
                 "<div>" .
-                "<span> {$this->getAge()}</span></br>" .
+                "<span> {$this->getDateBirthday()}</span></br>" .
                 "<span>Email: {$this->email}</span></br>" .
                 "<span>Teléfono: {$this->phone}</span></br>" .
                 "</div>" .

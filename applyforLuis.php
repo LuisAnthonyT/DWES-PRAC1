@@ -28,10 +28,6 @@
          $exprNumber = "/^0{0,2}([\+]?[\d]{1,3} ?)?([\(]([\d]{2,3})[)] ?)?[0-9][0-9 \-]{6,}( ?([xX]|([eE]xt[\.]?)) ?([\d]{1,5}))?$/";
          $exprDate = "/^\d{4}-\d{2}-\d{2}$/";
 
-         $name = null;
-         $surnames = null;
-         $dni = null;
-
          $exito = false;
          
          if (!empty($_POST)) {
@@ -100,52 +96,44 @@
                 }
                 $date = trim($_POST['date']); 
             }
-            if ($_FILES['curriculum']['error'] != UPLOAD_ERR_OK) {
-                echo 'Error: ';
-                switch ($_FILES['photo']['error']) {
-                    case UPLOAD_ERR_INI_SIZE:
-                    case UPLOAD_ERR_FORM_SIZE: echo 'El fichero es demasiado grande.';
+            //VALIDACIONES ARCHIVO PDF
+            if (!empty($_FILES['curriculum'])) {
+                            
+                if ($_FILES['curriculum']['error'] !== UPLOAD_ERR_OK) {
+                    switch ($_FILES['curriculum']['error']) {
+                        case UPLOAD_ERR_INI_SIZE:
+                        case UPLOAD_ERR_FORM_SIZE: $errores['curriculum'] = 'El fichero es demasiado grande.';
                                                break;
-                    case UPLOAD_ERR_PARTIAL: echo 'El fichero no se ha podido subir entero. ';
+                        case UPLOAD_ERR_PARTIAL: $errores['curriculum'] = 'El fichero no se ha podido subir entero. ';
                                                 break;
-                    case UPLOAD_ERR_NO_FILE: echo 'No se ha podido subir el fichero. ';
+                        case UPLOAD_ERR_NO_FILE: $errores['curriculum'] = 'No se ha podido subir el fichero. ';
                                                 break;
-                    default:                 echo 'Error indeterminado. ';
+                        default:                 $errores['curriculum'] = 'Error indeterminado. ';
                     
-                }
-                exit();
-            }
-
-            //Si no ha habido errores, se comprueba que el archivo sea del tipo indicado
-            if ($_FILES['curriculum']['type'] != 'application/pdf'){ 
-                echo 'Error: No se trata de un fichero PDF.';
-                exit();
-            }
-
-            //Si no hay error con el tipo, se comprueba si el archivo es uno recién subido al servidor
-            if (is_uploaded_file($_FILES['curriculum']['tmp_name']) === true) {
-                //
-                if (isset($name) && isset($dni) && isset($surnames)) {
-
-                    $nameFile = $dni . $name . $surnames;
-                    $nuevaRuta = "./cvs/". $nameFile . ".pdf";
-                    if (is_file($nuevaRuta) === true) {
-                        echo 'Error: Ya existe un archivo con el mismo nombre.';
-                        exit();
                     }
-                }
-
-                //Se cambia de ruta el archivo desde el directorio temporal
-                if (!move_uploaded_file($_FILES['curriculum']['tmp_name'], $nuevaRuta)) {
-                    echo 'Error: No se puede mover el fichero a su destino';
+                } else if ($_FILES['curriculum']['type'] != 'application/pdf') {
+                    $errores['curriculum'] = "Error: No se trata de un fichero PDF.";
                 } else {
-                    echo 'Error: Posible ataque. Nombre: '. $nameFile;
+                    if (empty($errores)) {
+                        //Si no hay error con el tipo, se comprueba si el archivo es uno recién subido al servidor
+                        if (is_uploaded_file($_FILES['curriculum']['tmp_name']) === true) {
+                            $nameFile = $dni . $name . $surnames;
+                            $nuevaRuta = "./cvs/". $nameFile . ".pdf";
+                            if (is_file($nuevaRuta) === true) {
+                                $errores['curriculum'] =  'Error: Ya existe un archivo con el mismo nombre.';
+                            } else {
+                                if (!move_uploaded_file($_FILES['curriculum']['tmp_name'], $nuevaRuta)) {
+                                    $errores['curriculum'] = 'Error: No se puede mover el fichero a su destino';
+                                }
+                            }
+                        }
+                    }
+                    $errores['curriculum'] = "Error: Hay campos vacios o sin cumplir el formato";
                 }
+            } else {
+                $errores['curriculum'] = "Debes seleccionar un archivo.pdf";
             }
-            else {
-                echo "Hay campos incompletos";
-            }
-
+           
             //MENSAJES DE ERRORES
             if (empty($errores)) {
                 $exito = true;
@@ -153,7 +141,6 @@
         }
     ?>
     <?php  if ($exito): ?>
-
         <div class='correct'>
             <span> Datos Correctos </span>
         </div>
@@ -186,7 +173,8 @@
             <?php if (isset($errores['date'])) echo "<div class='error'>" . $errores['date'] . "</div>"; ?>
 
             Sube tu curriculum (pdf): <input type="file" name="curriculum"></br>
-        
+            <?php if (isset($errores['curriculum'])) echo "<div class='error'>" . $errores['curriculum'] . "</div>"; ?>
+
             <input type="submit" value="Enviar">
         </form>
     <?php endif; ?>
