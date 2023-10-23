@@ -130,9 +130,49 @@
                     }
                     $errores['curriculum'] = "Error: Hay campos vacios o sin cumplir el formato";
                 }
-            } else {
-                $errores['curriculum'] = "Debes seleccionar un archivo.pdf";
-            }
+             } //else {
+            //     $errores['curriculum'] = "Debes seleccionar un archivo.pdf";
+            // }
+
+            //VALIDACIONES DNI.PNG
+
+            if (!empty($_FILES['imgdni'])) {
+                            
+                if ($_FILES['imgdni']['error'] !== UPLOAD_ERR_OK) {
+                    switch ($_FILES['imgdni']['error']) {
+                        case UPLOAD_ERR_INI_SIZE:
+                        case UPLOAD_ERR_FORM_SIZE: $errores['imgdni'] = 'La imagen es demasiado grande.';
+                                               break;
+                        case UPLOAD_ERR_PARTIAL: $errores['imgdni'] = 'La imagen no se ha podido subir entero. ';
+                                                break;
+                        case UPLOAD_ERR_NO_FILE: $errores['imgdni'] = 'No se ha podido subir la imagen. ';
+                                                break;
+                        default:                 $errores['imgdni'] = 'Error indeterminado. ';
+                    
+                    }
+                } else if ($_FILES['imgdni']['type'] != 'image/png') {
+                    $errores['imgdni'] = "Error: No se trata de una imagen png.";
+                } else {
+                    if (empty($errores)) {
+                        //Si no hay error con el tipo, se comprueba si el archivo es uno recién subido al servidor
+                        if (is_uploaded_file($_FILES['imgdni']['tmp_name']) === true) {
+                            $nameImg = $dni;
+                            $nuevaRuta = "./candidates/". $nameImg . ".png";
+                            if (is_file($nuevaRuta) === true) {
+                                $errores['imgdni'] =  'Error: Ya existe un archivo con el mismo nombre.';
+                            } else {
+                                if (!move_uploaded_file($_FILES['imgdni']['tmp_name'], $nuevaRuta)) {
+                                    $errores['imgdni'] = 'Error: No se puede mover el fichero a su destino';
+                                }
+                            }
+                        }
+                    }
+                    $errores['imgdni'] = "Error: Hay campos vacios o sin cumplir el formato";
+                }
+            } //else {
+                $errores['imgdni'] = "Debes seleccionar un imagen.png";
+            //}
+            
            
             //MENSAJES DE ERRORES
             if (empty($errores)) {
@@ -174,6 +214,10 @@
 
             Sube tu curriculum (pdf): <input type="file" name="curriculum"></br>
             <?php if (isset($errores['curriculum'])) echo "<div class='error'>" . $errores['curriculum'] . "</div>"; ?>
+
+            Selecciona tu foto de perfil (png):
+            <input type="file" name="imgdni">
+            <?php if (isset($errores['imgdni'])) echo "<div class='error'>" . $errores['imgdni'] . "</div>"; ?>
 
             <input type="submit" value="Enviar">
         </form>
