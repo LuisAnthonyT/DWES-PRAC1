@@ -30,18 +30,26 @@
             }
         }
 
-        private function getAge (): int {
-            //Se obtiene la fecha en formato a partir de la función getDateBirthday
-            $dateBirthday = $this->getDateBirthday($this->birthday);
-            $today = new strtotime('now');
-            $interval = $today - $dateBirthday;
-            $age = floor($interval / (365 * 24 * 60 * 60));
-            return $age;
+        private function getAge () {
+            //date_default_timezone_set('Europe/Madrid');
+            
+            $dateBirthday = date_create(date('Y-m-d', $this->birthday));
+            $today = date_create(date('Y-m-d'));
+            $age = date_diff($dateBirthday , $today);
+            return $age->y;
             
         }
 
-        private function getDateBirthday () { //$birtday esta en segundos
-            return strtotime(date('Y-m-d', $this->birthday));
+        private function getDateBirthday () {
+            //return date('d-m-Y', $this->birthday);
+            // setlocale(LC_TIME, 'es_ES', 'spanish'); // Establecer la configuración regional a español
+            // return strftime('%e de %B de %Y', $this->birthday);
+            $mesesEnEspanol = [
+                'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+            ];
+        
+            $fecha = getdate($this->birthday);
+            return $fecha['mday'] . ' de ' . $mesesEnEspanol[$fecha['mon'] - 1] . ' de ' . $fecha['year'];
         }
 
         public function __toString(): string {
@@ -49,7 +57,7 @@
                 "<article class='user'>" .
                 "<h1>{$this->name} {$this->surname1} {$this->surname2} {$this->id}</h1>" .
                 "<div>" .
-                "<span> {$this->getDateBirthday()}</span></br>" .
+                "<span> {$this->getAge()} años {$this->getDateBirthday()}</span></br>" .
                 "<span>Email: {$this->email}</span></br>" .
                 "<span>Teléfono: {$this->phone}</span></br>" .
                 "</div>" .

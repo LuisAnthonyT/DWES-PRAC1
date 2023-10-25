@@ -170,7 +170,7 @@
                     $errores['imgdni'] = "Error: Hay campos vacios o sin cumplir el formato";
                 }
             } //else {
-                $errores['imgdni'] = "Debes seleccionar un imagen.png";
+                //$errores['imgdni'] = "Debes seleccionar un imagen.png";
             //}
             
            
