@@ -98,82 +98,111 @@
             }
             //VALIDACIONES ARCHIVO PDF
             if (!empty($_FILES['curriculum'])) {
-                            
-                if ($_FILES['curriculum']['error'] !== UPLOAD_ERR_OK) {
-                    switch ($_FILES['curriculum']['error']) {
-                        case UPLOAD_ERR_INI_SIZE:
-                        case UPLOAD_ERR_FORM_SIZE: $errores['curriculum'] = 'El fichero es demasiado grande.';
-                                               break;
-                        case UPLOAD_ERR_PARTIAL: $errores['curriculum'] = 'El fichero no se ha podido subir entero. ';
-                                                break;
-                        case UPLOAD_ERR_NO_FILE: $errores['curriculum'] = 'No se ha podido subir el fichero. ';
-                                                break;
-                        default:                 $errores['curriculum'] = 'Error indeterminado. ';
-                    
-                    }
-                } else if ($_FILES['curriculum']['type'] != 'application/pdf') {
-                    $errores['curriculum'] = "Error: No se trata de un fichero PDF.";
-                } else {
-                    if (empty($errores)) {
-                        //Si no hay error con el tipo, se comprueba si el archivo es uno recién subido al servidor
-                        if (is_uploaded_file($_FILES['curriculum']['tmp_name']) === true) {
+                if ($_FILES['curriculum']['error'] === UPLOAD_ERR_OK) {
+                    if ($_FILES['curriculum']['type'] == 'application/pdf') {
+                        // Verificar si el archivo se ha subido al servidor
+                        if (is_uploaded_file($_FILES['curriculum']['tmp_name'])) {
                             $nameFile = $dni . $name . $surnames;
                             $nuevaRuta = "./cvs/". $nameFile . ".pdf";
-                            if (is_file($nuevaRuta) === true) {
-                                $errores['curriculum'] =  'Error: Ya existe un archivo con el mismo nombre.';
+            
+                            // Verificar si el archivo ya existe en la ruta de destino
+                            if (is_file($nuevaRuta)) {
+                                $errores['curriculum'] = 'Error: Ya existe un archivo con el mismo nombre.';
                             } else {
+                                // Mover el archivo al directorio de destino
                                 if (!move_uploaded_file($_FILES['curriculum']['tmp_name'], $nuevaRuta)) {
-                                    $errores['curriculum'] = 'Error: No se puede mover el fichero a su destino';
+                                    $errores['curriculum'] = 'Error: No se puede mover el archivo a su destino';
                                 }
                             }
+                        } else {
+                            $errores['curriculum'] = 'Error: No se ha podido subir el archivo.';
                         }
+                    } else {
+                        $errores['curriculum'] = 'Error: No se trata de un archivo pdf.';
                     }
-                    $errores['curriculum'] = "Error: Hay campos vacios o sin cumplir el formato";
+                } else {
+                    switch ($_FILES['curriculum']['error']) {
+                        case UPLOAD_ERR_INI_SIZE:
+                        case UPLOAD_ERR_FORM_SIZE:
+                            $errores['curriculum'] = 'El archivo es demasiado grande.';
+                            break;
+                        case UPLOAD_ERR_PARTIAL:
+                            $errores['curriculum'] = 'El archivo no se ha podido subir entero.';
+                            break;
+                        case UPLOAD_ERR_NO_FILE:
+                            $errores['curriculum'] = 'No se ha podido subir el archivo.';
+                            break;
+                        default:
+                            $errores['curriculum'] = 'Error indeterminado.';
+                    }
                 }
-             } //else {
-            //     $errores['curriculum'] = "Debes seleccionar un archivo.pdf";
-            // }
+            } else {
+                $errores['curriculum'] = "Error: No se ha seleccionado ningun archivo pdf.";
+            }
 
             //VALIDACIONES DNI.PNG
-
             if (!empty($_FILES['imgdni'])) {
-                            
-                if ($_FILES['imgdni']['error'] !== UPLOAD_ERR_OK) {
-                    switch ($_FILES['imgdni']['error']) {
-                        case UPLOAD_ERR_INI_SIZE:
-                        case UPLOAD_ERR_FORM_SIZE: $errores['imgdni'] = 'La imagen es demasiado grande.';
-                                               break;
-                        case UPLOAD_ERR_PARTIAL: $errores['imgdni'] = 'La imagen no se ha podido subir entero. ';
-                                                break;
-                        case UPLOAD_ERR_NO_FILE: $errores['imgdni'] = 'No se ha podido subir la imagen. ';
-                                                break;
-                        default:                 $errores['imgdni'] = 'Error indeterminado. ';
-                    
-                    }
-                } else if ($_FILES['imgdni']['type'] != 'image/png') {
-                    $errores['imgdni'] = "Error: No se trata de una imagen png.";
-                } else {
-                    if (empty($errores)) {
-                        //Si no hay error con el tipo, se comprueba si el archivo es uno recién subido al servidor
-                        if (is_uploaded_file($_FILES['imgdni']['tmp_name']) === true) {
-                            $nameImg = $dni;
-                            $nuevaRuta = "./candidates/". $nameImg . ".png";
-                            if (is_file($nuevaRuta) === true) {
-                                $errores['imgdni'] =  'Error: Ya existe un archivo con el mismo nombre.';
+                if ($_FILES['imgdni']['error'] === UPLOAD_ERR_OK) {
+                    if ($_FILES['imgdni']['type'] == 'image/png') {
+                        // Verificar si el archivo se ha subido al servidor
+                        if (is_uploaded_file($_FILES['imgdni']['tmp_name'])) {
+                            $nameImg = $dni; 
+                            $nuevaRutaImg = "./candidates/" . $nameImg . ".png";
+            
+                            // Verificar si el archivo ya existe en la ruta de destino
+                            if (is_file($nuevaRutaImg)) {
+                                $errores['imgdni'] = 'Error: Ya existe un archivo con el mismo nombre.';
                             } else {
-                                if (!move_uploaded_file($_FILES['imgdni']['tmp_name'], $nuevaRuta)) {
+                                // Mover el archivo al directorio de destino
+                                if (!move_uploaded_file($_FILES['imgdni']['tmp_name'], $nuevaRutaImg)) {
                                     $errores['imgdni'] = 'Error: No se puede mover el fichero a su destino';
                                 }
                             }
+                        } else {
+                            $errores['imgdni'] = 'Error: No se ha podido subir la imagen.';
                         }
+                    } else {
+                        $errores['imgdni'] = 'Error: No se trata de una imagen png.';
                     }
-                    $errores['imgdni'] = "Error: Hay campos vacios o sin cumplir el formato";
+                } else {
+                    switch ($_FILES['imgdni']['error']) {
+                        case UPLOAD_ERR_INI_SIZE:
+                        case UPLOAD_ERR_FORM_SIZE:
+                            $errores['imgdni'] = 'La imagen es demasiado grande.';
+                            break;
+                        case UPLOAD_ERR_PARTIAL:
+                            $errores['imgdni'] = 'La imagen no se ha podido subir entero.';
+                            break;
+                        case UPLOAD_ERR_NO_FILE:
+                            $errores['imgdni'] = 'No se ha podido subir la imagen.';
+                            break;
+                        default:
+                            $errores['imgdni'] = 'Error indeterminado.';
+                    }
                 }
-            } //else {
-                //$errores['imgdni'] = "Debes seleccionar un imagen.png";
-            //}
+            } else {
+                $errores['imgdni'] = "Error: No se ha seleccionado ninguna imagen.";
+            }
+
+            //ALMACENAMIENTO IMG PEQUEÑA dni-thumbnail.png
+            if (empty($errores)) {  
+                 
+                $originalImage = imagecreatefrompng($nuevaRutaImg);
+                
+                $newWidth = intval(imagesx($originalImage)/2);
+                $newHeight = intval(imagesy($originalImage)/2);
+                
+                $newImage = imagecreatetruecolor($newWidth, $newHeight);
+                
+                imagecopyresized($newImage, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, imagesx($originalImage), imagesy($originalImage));
+                $rutaThumbnail = "./candidates/". $nameImg . "-thumbnail.png";
+                //header('content-type: image/png');
+                imagepng($newImage, $rutaThumbnail);
+                
+                imagedestroy($originalImage);
+                imagedestroy($newImage);
+            }
             
-           
             //MENSAJES DE ERRORES
             if (empty($errores)) {
                 $exito = true;
@@ -216,7 +245,7 @@
             <?php if (isset($errores['curriculum'])) echo "<div class='error'>" . $errores['curriculum'] . "</div>"; ?>
 
             Selecciona tu foto de perfil (png):
-            <input type="file" name="imgdni">
+            <input type="file" name="imgdni"></br>
             <?php if (isset($errores['imgdni'])) echo "<div class='error'>" . $errores['imgdni'] . "</div>"; ?>
 
             <input type="submit" value="Enviar">

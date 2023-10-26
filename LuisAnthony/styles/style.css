@@ -8,24 +8,9 @@ body{
 h1,h2,h3,p{
     text-align: center;
 }
-.bienvenida{
-    width: 100%;
-    margin: auto;
-    text-align: center;
-    justify-content: space-between;
-}
-.bienvenida h1{
-    font-weight: bold;
-    margin-top: 20px;
-}
-.bienvenida button {
-    margin-top: 20px;
-}
-.bienvenida a {
-    text-decoration: none;
-}
+
 /* Estilos para el formulario */
-.login {
+form {
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
@@ -37,7 +22,7 @@ h1,h2,h3,p{
 }
 
 /* Estilos para los campos de entrada de texto */
-.login input[type="text"] {
+form input[type="text"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -46,7 +31,9 @@ h1,h2,h3,p{
     margin-top: 5px;
 }
 
-.login input[type="password"] {
+/* Estilos para los campos de entrada de file */
+form input[type="file"] {
+    display: flex;
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -54,9 +41,10 @@ h1,h2,h3,p{
     border-radius: 5px;
     margin-top: 5px;
 }
+
 
 /* Estilos para el botón de enviar */
-.login input[type="submit"] {
+form input[type="submit"] {
     background-color: #007bff;
     color: #fff;
     padding: 10px 20px;
@@ -67,6 +55,32 @@ h1,h2,h3,p{
 }
 
 /* Estilos para el botón de enviar al pasar el cursor sobre él */
-.login input[type="submit"]:hover {
+form input[type="submit"]:hover {
     background-color: #0056b3;
+}
+
+/* DIV DE ERRORES */
+.error{
+    margin: 0 auto;
+    font-weight: bold;
+    color: rgba(209, 24, 24, 0.829);
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+/* DIV DE TODO CORRECTO */
+.correct{
+    margin-top: 15px !important;
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 10px;
+    background-color: #d4edda;
+    border-radius: 10px;
+    border-color: #c3e6cb;   
+    display: flex;
+    justify-content: center;
+}
+.correct span{
+    font-weight: bold;
+    color: #155724;
 }

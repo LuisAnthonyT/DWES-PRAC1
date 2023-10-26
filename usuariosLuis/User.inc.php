@@ -31,19 +31,14 @@
         }
 
         private function getAge () {
-            //date_default_timezone_set('Europe/Madrid');
-            
             $dateBirthday = date_create(date('Y-m-d', $this->birthday));
             $today = date_create(date('Y-m-d'));
             $age = date_diff($dateBirthday , $today);
             return $age->y;
-            
         }
 
         private function getDateBirthday () {
-            //return date('d-m-Y', $this->birthday);
-            // setlocale(LC_TIME, 'es_ES', 'spanish'); // Establecer la configuración regional a español
-            // return strftime('%e de %B de %Y', $this->birthday);
+
             $mesesEnEspanol = [
                 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
             ];

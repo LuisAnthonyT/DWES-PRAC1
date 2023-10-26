@@ -1,3 +1,9 @@
+<?php 
+    /**
+     * @autor Luis Anthony Toapanta Bolaños
+     * @version 1
+     */
+?>
 <?php
     //Si el array de errores esta vacío, significa que todos los datos están bien
     //Devuelve un error de campo vacío o de validación
