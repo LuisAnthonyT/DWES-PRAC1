@@ -65,8 +65,16 @@ h1,h2,h3,p{
 .login input[type="submit"]:hover {
     background-color: #0056b3;
 }
-
+/*  */
 .container h1 {
     margin-top: 20px;
     font-weight: bold;
+}
+
+/* FOOTER */
+footer{
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    
 }
