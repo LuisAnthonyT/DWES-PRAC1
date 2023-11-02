@@ -6,6 +6,7 @@
 ?>
  <!DOCTYPE html>
  <html lang="es">
+<link rel="stylesheet" href="/styles/style2.css">
  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +14,7 @@
  </head>
  <body>
     <?php 
-        include_once(__DIR__ . 'inc/utils.inc.php');
+        include_once(__DIR__ . '/inc/utils.inc.php');
     ?>  
  </body>
  </html>

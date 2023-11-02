@@ -1,6 +1,10 @@
 <?php
-require_once('Team.inc.php');
-require_once('Circuit.inc.php');
+require_once(__DIR__ .'/Circuit.inc.php');
+require_once(__DIR__ . '/Team.inc.php');
+require_once(__DIR__ . '/Mechanic.inc.php');
+require_once(__DIR__ . '/Rider.inc.php');
+require_once(__DIR__ . '/GrandPrix.inc.php');
+
 
 $teams[] = new Team('Honda HRC', 'Japón');
 $teams[] = new Team('Yamaha', 'Japón');
@@ -29,7 +33,41 @@ for($i=1; $i<100; $i++) {
     $dorsals[] = $i;
 }
 shuffle($dorsals);
-// Uso: randomDorsal($dorsals)
+// Uso: randomDorsal($dorsals) LA POSICIÓN DE CADA RIDER
 function randomDorsal(array &$dorsals): int {
     return array_pop($dorsals);
 }
+
+//AÑADIR 2 mecánicos y 2 pilotos a cada equipo.
+echo '<div class="container">';
+echo "<h1>Teams</h1>";
+foreach ($teams as $team) {
+
+    //CREACIÓN DE 2 MECÁNICOS
+    $mechanic1 = new Mechanic (randomName(), randomBirthday(), randomSpeciality());
+    $mechanic2 = new Mechanic (randomName(), randomBirthday(), randomSpeciality());
+    
+    //CREACIÓN DE 2 PILOTOS
+    $rider1 = new Rider (randomName(), randomBirthday(), randomDorsal($dorsals));
+    $rider2 = new Rider (randomName(), randomBirthday(), randomDorsal($dorsals));
+
+    $team ->addMechanic($mechanic1);
+    $team ->addMechanic($mechanic2);
+    $team ->addRider($rider1);
+    $team ->addRider($rider1);
+
+    echo $team . "</br>";
+}
+echo "</div>";
+
+//CREACIÓN 3 carreras y añade a los pilotos a las carreras con la posición obtenida.
+echo "<h1>Carreras</h1>";
+foreach ($circuits as $circuit) {
+    $grandprix[] = new GrandPrix (randomBirthday(), $circuit);
+}
+echo '<div class="container">';
+foreach ($grandprix as $grand) {
+    echo $grand;
+}
+echo "</div>";
+

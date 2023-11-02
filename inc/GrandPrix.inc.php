@@ -8,11 +8,12 @@
     class GrandPrix {
 
         private $date;
-        private $rider;
+        private $riders = [];
+        private $circuit;
 
-        function __construct (Rider $rider, $date) {
-            $this->rider = $rider;
+        public function __construct ($date, Circuit $circuit) {
             $this->date = $date;
+            $this->circuit = $circuit;
         }
 
         public function __set ($property, $value) {
@@ -27,8 +28,22 @@
             }
         }
 
+        public function addRider ($pos, Rider $rider) {
+            if (!isset($this->riders[$position])) {
+                $this->riders[$position] = $rider;
+            }
+        }
+
+        public function results() {
+            $gpInfo = $this->circuit->__toString() . "\n fecha:". $this->date;
+            foreach ($this->riders as $position => $rider) {
+                $gpInfo .= "Position $position: " . $rider->__toString() . "\n";
+            }
+            return $gpInfo;
+        }
+
         public function __toString() {
-            return "GrandPrix: " . $this->date . " - Rider " .$this->mechanic->nombre . " (Mechanic) - " . $this->rider->nombre . " (Rider)";
+            return "Circuito: " . $this->circuit->__toString() . "Fecha de realización:" . $this->date;
         }
 
 

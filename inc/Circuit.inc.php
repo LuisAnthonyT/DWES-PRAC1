@@ -5,15 +5,16 @@
      */
 ?>
 <?php
-    require_once(__DIR__ . '/Person.inc.php');
+    class Circuit {
     
-    class Mechanic extends Person {
-    
-        private $speciality;
+    private $name;
+    private $country;
+    private $laps; 
 
-        public function __construct ($name, $birthday, $speciality) {
-            parent::__construct($name, $birthday);
-            $this->speciality = $speciality;
+        public function __construct ($name, $country, $laps) {
+            $this->name = $name;
+            $this->country = $country;
+            $this->laps = $laps;
         }
 
         public function __set ($property, $value) {
@@ -28,9 +29,9 @@
             }
         }
 
-        public function __toString() {
-            return parent::__toString() . ' '.
-                $this->speciality;
+        public function __toString(): string {
+            return "Circuit: {$this->name}, Country: {$this->country}, Laps: {$this->laps}";
+        
         }
     }
 ?>

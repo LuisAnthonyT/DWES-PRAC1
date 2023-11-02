@@ -5,6 +5,7 @@
      */
 ?>
 <?php
+
     class Rider extends Person {
     
         private $number;
@@ -28,7 +29,7 @@
 
         public function __toString() {
             return parent::__toString() . ' '.
-                $this->number;
+                'Rider Number:' . $this->number;
         }
     }
 ?>
