@@ -12,11 +12,11 @@ $teams[] = new Team('Ducati', 'Italia');
 $teams[] = new Team('Aprilia', 'Italia');
 
 $circuits[] = new Circuit('Ricardo Tormo', 'España', 26);
-$circuits[] = new Circuit('Suzuka', 'Jaón', 21);
+$circuits[] = new Circuit('Suzuka', 'Japón', 21);
 $circuits[] = new Circuit('Assen', 'Países Bajos', 20);
 
 function randomName(): string{
-    $names = ['Juan', 'María', 'Carlos', 'Laura', 'Pedro', 'Ana', 'José', 'Sofía', 'Miguel', 'Elena', 'David', 'Carmen', 'Pablo', 'Isabel', 'Manuel', 'Lucía', 'Javier', 'Raquel', 'Daniel', 'Paula', 'Francisco', 'Martina', 'Diego', 'Valentina', 'Luis', 'Julia', 'Alejandro', 'Valeria', 'Jorge','Emma', 'Alberto', 'Marta', 'Andrés', 'Claudia', 'Joaquín', 'Antonia', 'Adrián', 'Alba', 'Rafael', 'Eva', 'Rubén', 'Lorena', 'Fernando', 'Olivia','álvaro', 'Nerea', 'Iván', 'Mireia', 'Jesús', 'Aitana', 'Mario', 'Celia'];
+    $names = ['Juan', 'María', 'Carlos', 'Laura', 'Pedro', 'Ana', 'José', 'Sofía', 'Miguel', 'Elena', 'David', 'Carmen', 'Pablo', 'Isabel', 'Manuel', 'Lucía', 'Javier', 'Raquel', 'Daniel', 'Paula', 'Francisco', 'Martina', 'Diego', 'Valentina', 'Luis', 'Julia', 'Alejandro', 'Valeria', 'Jorge','Emma', 'Alberto', 'Marta', 'Andrés', 'Claudia', 'Joaquín', 'Antonia', 'Adrián', 'Alba', 'Rafael', 'Eva', 'Rubén', 'Lorena', 'Fernando', 'Olivia','Álvaro', 'Nerea', 'Iván', 'Mireia', 'Jesús', 'Aitana', 'Mario', 'Celia'];
     return $names[rand(0, count($names)-1)];
 }
 
@@ -37,37 +37,4 @@ shuffle($dorsals);
 function randomDorsal(array &$dorsals): int {
     return array_pop($dorsals);
 }
-
-//AÑADIR 2 mecánicos y 2 pilotos a cada equipo.
-echo '<div class="container">';
-echo "<h1>Teams</h1>";
-foreach ($teams as $team) {
-
-    //CREACIÓN DE 2 MECÁNICOS
-    $mechanic1 = new Mechanic (randomName(), randomBirthday(), randomSpeciality());
-    $mechanic2 = new Mechanic (randomName(), randomBirthday(), randomSpeciality());
-    
-    //CREACIÓN DE 2 PILOTOS
-    $rider1 = new Rider (randomName(), randomBirthday(), randomDorsal($dorsals));
-    $rider2 = new Rider (randomName(), randomBirthday(), randomDorsal($dorsals));
-
-    $team ->addMechanic($mechanic1);
-    $team ->addMechanic($mechanic2);
-    $team ->addRider($rider1);
-    $team ->addRider($rider1);
-
-    echo $team . "</br>";
-}
-echo "</div>";
-
-//CREACIÓN 3 carreras y añade a los pilotos a las carreras con la posición obtenida.
-echo "<h1>Carreras</h1>";
-foreach ($circuits as $circuit) {
-    $grandprix[] = new GrandPrix (randomBirthday(), $circuit);
-}
-echo '<div class="container">';
-foreach ($grandprix as $grand) {
-    echo $grand;
-}
-echo "</div>";
 

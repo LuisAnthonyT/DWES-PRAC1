@@ -28,22 +28,22 @@
             }
         }
 
-        public function addRider ($pos, Rider $rider) {
+        public function addRider ($position, Rider $rider) {
             if (!isset($this->riders[$position])) {
                 $this->riders[$position] = $rider;
             }
         }
 
         public function results() {
-            $gpInfo = $this->circuit->__toString() . "\n fecha:". $this->date;
+            $gpInfo = "<h2>Circuito</h2> " . $this->circuit->__toString() . "\n fecha:". $this->date . "<h2>Pilotos</h2>";
             foreach ($this->riders as $position => $rider) {
-                $gpInfo .= "Position $position: " . $rider->__toString() . "\n";
+                $gpInfo .= "Posición $position: " . $rider->__get('name') . "\n";
             }
             return $gpInfo;
         }
 
         public function __toString() {
-            return "Circuito: " . $this->circuit->__toString() . "Fecha de realización:" . $this->date;
+            return "Circuito: " . $this->circuit->__toString() . "Fecha de realización:" . $this->date . " ";
         }
 
 

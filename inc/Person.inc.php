@@ -28,7 +28,7 @@
         }
 
         public function __toString(): string {
-            return $this->name ." ". $this->birthday;
+            return $this->name;
         }
     }
 ?>

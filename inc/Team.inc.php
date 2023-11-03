@@ -7,8 +7,8 @@
 <?php
     class Team {
     
-    private $mechanics = [];
-    private $riders = [];
+    private $mechanics;
+    private $riders;
     private $name;
     private $country; 
 
@@ -30,13 +30,13 @@
         }
 
         public function __toString() {
-            $teamInfo = "Team: {$this->name} , Country: {$this->country}\n" . ", Mechanics: ";
+            $teamInfo = "<h2>Team {$this->name}</h2>País: {$this->country}" . "<p>Mecánicos:</p> ";
             foreach ($this->mechanics as $mechanic) {
-                $teamInfo .= $mechanic. ",";
+                $teamInfo .= $mechanic. ", ";
             }
-                $teamInfo .= "Riders: ";
+                $teamInfo .= "<p>Pilotos:</p>";
             foreach ($this->riders as $rider) {
-                $teamInfo .= $rider . ",";
+                $teamInfo .= $rider . ", ";
             }
             return $teamInfo;
         }

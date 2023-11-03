@@ -30,7 +30,7 @@
 
         public function __toString() {
             return parent::__toString() . ' '.
-                $this->speciality;
+                "(Especialidad: " . $this->speciality .")";
         }
     }
 ?>

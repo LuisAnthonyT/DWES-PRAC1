@@ -30,7 +30,7 @@
         }
 
         public function __toString(): string {
-            return "Circuit: {$this->name}, Country: {$this->country}, Laps: {$this->laps}";
+            return "Nombre: {$this->name}, País: {$this->country}, Laps: {$this->laps} ";
         
         }
     }

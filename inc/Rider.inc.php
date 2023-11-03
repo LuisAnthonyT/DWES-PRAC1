@@ -29,7 +29,7 @@
 
         public function __toString() {
             return parent::__toString() . ' '.
-                'Rider Number:' . $this->number;
+                '(Número ' . $this->number . ")";
         }
     }
 ?>
