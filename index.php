@@ -45,16 +45,12 @@
     }
 
     //INSERTAR LOS PILOTOS A LAS CARRERAS CON LA POSICIÓN OBTENIDA
-   //  foreach ($grandprix as $grand) {
-   //     $grand->addRider($rider1->__get('number'), $rider1);
-   //     $grand->addRider($rider2->__get('number'), $rider2);
-   //    }
-
     foreach ($teams as $team) {
+   //Obtenmos el array de riders de cada team
     $riders = $team->riders;
     foreach ($grandprix as $grand) {
         foreach ($riders as $rider) {
-           $grand->addRider($rider->__get('number'), $rider);
+           $grand->addRider(randomDorsal($dorsals), $rider);
          }
       }
    }

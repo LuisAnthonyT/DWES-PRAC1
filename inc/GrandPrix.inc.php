@@ -5,10 +5,12 @@
      */
 ?>
 <?php 
+    include_once (__DIR__ . '/formatDate.inc.php');
+
     class GrandPrix {
 
         private $date;
-        private $riders = [];
+        private $riders;
         private $circuit;
 
         public function __construct ($date, Circuit $circuit) {
@@ -28,16 +30,16 @@
             }
         }
 
-        public function addRider ($position, Rider $rider) {
+        public function addRider (int $position, Rider $rider) {
             if (!isset($this->riders[$position])) {
                 $this->riders[$position] = $rider;
             }
         }
 
         public function results() {
-            $gpInfo = "<h2>Circuito</h2> " . $this->circuit->__toString() . "\n fecha:". $this->date . "<h2>Pilotos</h2>";
+            $gpInfo = "<h2>Circuito  {$this->circuit->__get('name')}</h2> " . "País: ". $this->circuit->__get('country') . "\n Fecha: ". getDateBirthday($this->date) . "<h2>Pilotos</h2>";
             foreach ($this->riders as $position => $rider) {
-                $gpInfo .= "Posición $position: " . $rider->__get('name') . "\n";
+                $gpInfo .= "Posición $position: " . $rider->__get('name') . "</br>";
             }
             return $gpInfo;
         }

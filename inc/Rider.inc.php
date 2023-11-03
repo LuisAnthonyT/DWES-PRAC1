@@ -29,7 +29,7 @@
 
         public function __toString() {
             return parent::__toString() . ' '.
-                '(Número ' . $this->number . ")";
+                '(Dorsal ' . $this->number . ")";
         }
     }
 ?>
