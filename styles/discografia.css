@@ -7,7 +7,7 @@ body{
     margin: 0; 
 }
 
-h1,h2,h3,p{
+h1,h2,h3,h4,p{
     text-align: center;
 }
 
@@ -58,4 +58,102 @@ table {
     padding: 20px; /* Espaciado interno para el contenido del footer */
     text-align: center; /* Alineación del texto al centro */
   }
-  
+
+  /* FORMULARIO */
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 5px;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  justify-content: center;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Estilos para los campos de entrada de texto */
+form input[type="text"] {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+
+/* Estilos para el botón de enviar */
+form input[type="submit"] {
+  background-color: #ae00ff;
+  font-size: 1em;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Estilos para el botón de enviar al pasar el cursor sobre él */
+form input[type="submit"]:hover {
+  background-color:  #700f9c;
+}
+
+form select {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  width: 470px; /* Establece el ancho deseado */
+  padding: 10px; /* Añade espacio alrededor del select */
+  font-size: 16px; /* Tamaño de fuente */
+  border: 2px solid #ccc; /* Borde con un color de tu elección */
+  border-radius: 5px; /* Bordes redondeados */
+  background-color: #fff; /* Color de fondo */
+  color: #333; /* Color del texto */
+}
+
+form select:hover {
+  border-color: #666; /* Cambia el color del borde al pasar el ratón */
+}
+
+/* Personaliza la apariencia de las opciones */
+form select option {
+  background-color: #fff; /* Color de fondo de las opciones */
+  color: #333; /* Color del texto de las opciones */
+  padding: 5px; /* Espaciado dentro de las opciones */
+}
+
+ /* CONTAINER */
+ .container{
+  margin-top: 15px !important;
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+ }
+
+/* ERRORES */
+.error{
+  margin: 0 auto;
+  font-weight: bold;
+  color: rgba(209, 24, 24, 0.829);
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+/* DIV DE TODO CORRECTO */
+.correct{
+  margin-top: 15px !important;
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 10px;
+  background-color: #d4edda;
+  border-radius: 10px;
+  border-color: #c3e6cb;   
+  display: flex;
+  justify-content: center;
+}
+.correct span{
+  font-weight: bold;
+  color: #155724;
+}
