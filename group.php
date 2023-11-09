@@ -52,7 +52,7 @@
     
                 $query = $connection->prepare('INSERT INTO ALBUMES (titulo, grupo, anyo, formato, fechacompra, precio) VALUES (?, ?, ?, ?, ?, ?);');
                 $query->bindParam(1, $title);
-                $query->bindParam(2, $_GET['codigo']);
+                $query->bindParam(2, $_GET['codigoGrupo']);
                 $query->bindParam(3, $year);
                 $query->bindParam(4, $format);
                 $query->bindParam(5, $date);
@@ -71,9 +71,9 @@
             }
         }
 
-        if (isset($_GET['codigo'])) {
+        if (isset($_GET['codigoGrupo'])) {
    
-            $idGroup = $_GET['codigo'];
+            $idGroup = $_GET['codigoGrupo'];
             //CONSULTA 1 DATOS DEL GRUPO
             $stmt = $connection->prepare("SELECT * FROM grupos WHERE codigo = :codigo ");
             $stmt->bindParam(':codigo', $idGroup);
@@ -92,6 +92,15 @@
 
             unset($stmt);
 
+            //CONSULTA PARA ELIMINAR X ALBUM
+            if (isset($_GET['accion']) && $_GET['accion'] == 'delete' && isset($_GET['codigoAlbum'])) {
+                $codigoAlbum = $_GET['codigoAlbum'];
+
+                $stmt = $connection->prepare("DELETE FROM albumes WHERE codigo = :codigoAlbum");
+                $stmt->bindParam(':codigoAlbum', $codigoAlbum);
+                $stmt->execute();
+            } 
+
             //CONSULTA 2 OBTENEMOS LOS ALBUMES
 
             $stmt = $connection->prepare("SELECT * FROM albumes WHERE grupo=:codigo");
@@ -106,16 +115,19 @@
                     echo "<td>Formato</td>";
                     echo "<td>Fecha Compra</td>";
                     echo "<td>Precio</td>";
+                    echo "<td>Eliminar</td>";
                 echo "</tr>";
 
                 while ($album = $stmt->fetchObject()) {
                     $albumCode = urlencode($album->codigo);
+                    $deleteLink = "/group.php?codigoGrupo=" . $idGroup . "&codigoAlbum=" . $albumCode . "&accion=delete";
                     echo "<tr>";
-                        echo '<td><a href="/album.php?codigo=' . $albumCode . '"> ' . $album->titulo . '</a></td>';
+                        echo '<td><a href="/album.php?codigoGrupo='.$idGroup.'&codigoAlbum=' . $albumCode . '"> ' . $album->titulo . '</a></td>';
                         echo "<td>$album->anyo</td>";
                         echo "<td>$album->formato</td>";
                         echo "<td>$album->fechacompra</td>";
                         echo "<td>$album->precio</td>";
+                        echo '<td><a href="'.$deleteLink.'"><img src="/img/papelera.png"></a></td>';
                     echo "</tr>";
                 }
             echo "</table>";
@@ -129,7 +141,7 @@
    <h4>Añadir Álbum</h4>
    <form action="#" method="post">
         <!-- CAMPO OCULTO - PK DEL GRUPO -->
-        <input type="hidden" name="idgroup" value="<?php echo $_GET['codigo']; ?>">
+        <input type="hidden" name="idgroup" value="<?php echo $_GET['codigoGrupo']; ?>">
 
         Introduce un titulo:
         <input type="text" name="title" value="<?php echo isset($title) ? $title : null ?>"></br>
@@ -157,9 +169,10 @@
         <?php if (isset($error['price'])) echo "<div class='error'>" . $error['price'] . "</div>"; ?>
 
         <input type="submit" value="Añadir">
-
+    </form>
     <footer>
         <a href='/index.php'>Volver</a>
     </footer>
+
 </body>
 </html>

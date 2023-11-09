@@ -62,22 +62,34 @@
             echo '</div>';
         }
     }
+
+      //CONSULTA PARA ELIMINAR X GRUPO
+      if (isset($_GET['accion']) && $_GET['accion'] == 'delete' && isset($_GET['codigoGrupo'])) {
+        $codigoGrupo = $_GET['codigoGrupo'];
+
+        $stmt = $connection->prepare("DELETE FROM grupos WHERE codigo = :codigoGrupo");
+        $stmt->bindParam(':codigoGrupo', $codigoGrupo);
+        $stmt->execute();
+    } 
+
     //OBTENEMOS TODA LA INFO DE LA TABLA GRUPOS
     $result = $connection->query("SELECT * FROM grupos;");
 
     echo "<div class='container'>";
-    echo "<ol>";
+    echo "<ol class='grupos'>";
         while ($group = $result->fetch()) {
             $groupCode = urlencode($group['codigo']);
-            echo '<li><a href="/group.php?codigo=' . $groupCode . '">Grupo: ' . $group['nombre'] . '</a></li>';
+            $deleteLink = "/index.php?codigoGrupo=" . $groupCode . "&accion=delete";
+            echo '<li><a href="/group.php?codigoGrupo=' . $groupCode . '">Grupo: ' . $group['nombre'] . '</a>';
+            echo '<a href="' . $deleteLink . '"><img src="/img/papelera.png" alt="Eliminar"></a>';
+            echo '</li>';
         }
     echo "</ol>";
     echo "</div>";
 
     unset($result);
-    unset($connection);   
-
-   ?>
+    unset($connection);  
+    ?>
 
    <!-- FORMULARIO -->
    <h4>Añadir Grupos</h4>

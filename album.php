@@ -42,7 +42,7 @@
     
                 $query = $connection->prepare('INSERT INTO CANCIONES (titulo, album, duracion, posicion) VALUES (?, ?, ?, ?);');
                 $query->bindParam(1, $title);
-                $query->bindParam(2, $_GET['codigo']);
+                $query->bindParam(2, $_GET['codigoAlbum']);
                 $query->bindParam(3, $duration);
                 $query->bindParam(4, $position);
                 $query->execute();
@@ -56,10 +56,18 @@
                 echo '</div>';
             }
         }
+        //CONSULTA PARA ELIMINAR X CANCION
+        if (isset($_GET['accion']) && $_GET['accion'] == 'delete' && isset($_GET['codigoCancion'])) {
+            $codigoCancion = $_GET['codigoCancion'];
+
+            $stmt = $connection->prepare("DELETE FROM canciones WHERE codigo = :codigoCancion");
+            $stmt->bindParam(':codigoCancion', $codigoCancion);
+            $stmt->execute();
+        }
 
         //Mostrar el nombre del grupo, el título del álbum y las canciones de ese álbum en forma de tabla.
-        if (isset($_GET['codigo'])) {
-            $idAlbum = $_GET['codigo'];
+        if (isset($_GET['codigoAlbum'])) {
+            $idAlbum = $_GET['codigoAlbum'];
 
             //CONSULTA 1 NOMBRE DEL GRUPO
             $stmt = $connection->prepare("SELECT g.nombre FROM grupos g, albumes a  WHERE g.codigo = a.grupo");
@@ -79,7 +87,7 @@
         }
 
             echo '<h4>Nombre del grupo: '. $groupName['nombre'] .'</h4>';
-            echo '<h4> Titulo del album: ' . $titleAlbum['titulo'] . '</h4>';
+            echo '<h4> Titulo del album: ' . $titleAlbum['titulo'] . '</h4>'; 
        
         //CANCIONES
         echo "<h3>Canciones</h3>";
@@ -88,13 +96,17 @@
                     echo "<td>Titulo</td>";
                     echo "<td>Duracion</td>";
                     echo "<td>Posicion</td>";
+                    echo "<td>Eliminar</td>";
                 echo "</tr>";
 
                 while ($song = $stmt3->fetchObject()) {
+                    $albumCode = urldecode($song->album);
+                    $deleteLink = "/album.php?codigoAlbum=" . $albumCode . "&codigoCancion=" . $song->codigo . "&accion=delete";
                     echo "<tr>";
                         echo '<td>' . $song->titulo .'</td>';
                         echo '<td>' . $song->duracion .'</td>';
                         echo '<td>' . $song->posicion .'</td>';
+                        echo '<td><a href="'. $deleteLink.'"><img src="/img/papelera.png"></a></td>';
                     echo "</tr>";
                 }
             echo "</table>";
@@ -108,7 +120,7 @@
    <h4>Añadir canción</h4>
    <form action="#" method="post">
         <!-- CAMPO OCULTO - PK DEL GRUPO -->
-        <input type="hidden" name="pkAlbum" value="<?php echo $_GET['codigo']; ?>">
+        <input type="hidden" name="pkAlbum" value="<?php echo $_GET['codigoAlbum']; ?>">
 
         Introduce un titulo:
         <input type="text" name="title" value="<?php echo isset($title) ? $title : null ?>"></br>
@@ -123,6 +135,12 @@
         <?php if (isset($error['position'])) echo "<div class='error'>" . $error['position'] . "</div>"; ?>
 
         <input type="submit" value="Añadir">
-
+    </form>
+    <footer>
+            <?php 
+                echo '<a href="/group.php?codigoGrupo='.$_GET['codigoGrupo'].'">Volver</a>';
+                
+            ?>
+        </footer>
 </body>
 </html>
