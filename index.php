@@ -107,9 +107,20 @@
         <?php if (isset($error['country'])) echo "<div class='error'>" . $error['country'] . "</div>"; ?>
 
         Introduce el inicio:
-        <input type="text" name="start" value="<?php echo isset($start) ? $start : null ?>"></br>
+        <select name="start">
+        <?php
+        // Rango de años
+        $startYear = 1900;
+        $currentYear = date('Y');
+        
+        for ($year = $currentYear; $year >= $startYear; $year--) {
+            $selected = isset($start) && $start == $year ? 'selected' : '';
+            echo "<option value=\"$year\" $selected>$year</option>";
+        }
+        ?>
+        </select></br>
         <?php if (isset($error['start'])) echo "<div class='error'>" . $error['start'] . "</div>"; ?>
-
+        
         <input type="submit" value="Añadir">
    </form>
 </body>

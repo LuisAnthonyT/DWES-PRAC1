@@ -81,6 +81,14 @@ form input[type="text"] {
   border-radius: 5px;
   margin-top: 5px;
 }
+form input[type="date"] {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+}
 
 /* Estilos para el botón de enviar */
 form input[type="submit"] {

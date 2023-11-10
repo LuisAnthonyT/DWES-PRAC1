@@ -39,7 +39,15 @@
             if (empty($_POST['date'])) {
                 $error['date'] = 'La fecha de compra esta vacia';
             } else {
-                $date = trim($_POST['date']);
+                $rawDate = trim($_POST['date']);
+                // Intenta convertir la fecha al formato deseado (YYYY-MM-DD)
+                $timestamp = strtotime($rawDate);
+                if ($timestamp === false) {
+                $error['date'] = 'Formato de fecha no válido';
+                } else {
+                // Formatea la fecha en el formato deseado (YYYY-MM-DD)
+                $date = date('Y-m-d', $timestamp);
+        }
             }
             if (empty($_POST['price'])) {
                 $error['price'] = 'El precio esta vacio';
@@ -148,7 +156,18 @@
         <?php if (isset($error['title'])) echo "<div class='error'>" . $error['title'] . "</div>"; ?>
 
         Introduce un año:
-        <input type="text" name="year" value="<?php echo isset($year) ? $year : null ?>"></br>
+        <select name="year">
+        <?php
+        // Rango de años
+        $startYear = 1900;
+        $currentYear = date('Y');
+        
+        for ($year = $currentYear; $year >= $startYear; $year--) {
+            $selected = isset($start) && $start == $year ? 'selected' : '';
+            echo "<option value=\"$year\" $selected>$year</option>";
+        }
+        ?>
+        </select></br>
         <?php if (isset($error['year'])) echo "<div class='error'>" . $error['year'] . "</div>"; ?>
 
         Elige un formato: </br>
@@ -161,7 +180,7 @@
         </br>
 
         Introduce una fecha de compra:
-        <input type="text" name="date" value="<?php echo isset($date) ? $date : null ?>"></br>
+        <input type="date" name="date" value="<?php echo isset($date) ? $date : null ?>"></br>
         <?php if (isset($error['date'])) echo "<div class='error'>" . $error['date'] . "</div>"; ?>
 
         Introduce un precio:

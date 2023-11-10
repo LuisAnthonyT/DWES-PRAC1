@@ -40,7 +40,7 @@
             //SI NO HAY ERRORES DE VALIDACIÓN, SE EJECUTARA EL INSERT
             if (empty($error)) {
     
-                $query = $connection->prepare('INSERT INTO CANCIONES (titulo, album, duracion, posicion) VALUES (?, ?, ?, ?);');
+                $query = $connection->prepare('INSERT INTO canciones (titulo, album, duracion, posicion) VALUES (?, ?, ?, ?)');
                 $query->bindParam(1, $title);
                 $query->bindParam(2, $_GET['codigoAlbum']);
                 $query->bindParam(3, $duration);
@@ -131,8 +131,18 @@
         <?php if (isset($error['duration'])) echo "<div class='error'>" . $error['duration'] . "</div>"; ?>
 
         Introduce una posición:
-        <input type="text" name="position" value="<?php echo isset($position) ? $position : null ?>"></br>
+        <select name="position">
+        <?php
+        // Rango de años
+        
+        for ($pos = 1; $pos <= 100; $pos++) {
+            $selected = isset($position) && $position == $pos ? 'selected' : '';
+            echo "<option value=\"$pos\" $selected>$pos</option>";
+        }
+        ?>
+        </select></br>
         <?php if (isset($error['position'])) echo "<div class='error'>" . $error['position'] . "</div>"; ?>
+
 
         <input type="submit" value="Añadir">
     </form>
