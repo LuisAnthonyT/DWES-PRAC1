@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule ^album/(\d+)/(\d+)$ album.php?codigoGrupo=$1&codigoAlbum=$2 [L]
+

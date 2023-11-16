@@ -7,14 +7,12 @@
 <?php
     class Team {
     
-    private $mechanic;
-    private $rider;
+    private $mechanics;
+    private $riders;
     private $name;
     private $country; 
 
-        public function __construct (Mechanic $mechanic, Rider $rider, $name, $country) {
-            $this->mechanic = $mechanic;
-            $this->rider = $rider;
+        public function __construct ($name, $country) {
             $this->name = $name;
             $this->country = $country;
         }
@@ -31,8 +29,24 @@
             }
         }
 
-        public function __toString(): string {
-            return $this->name . $this->birthday;
+        public function __toString() {
+            $teamInfo = "<h2>Team {$this->name}</h2>País: {$this->country}" . "<p>Mecánicos:</p> ";
+            foreach ($this->mechanics as $mechanic) {
+                $teamInfo .= $mechanic. ", ";
+            }
+                $teamInfo .= "<p>Pilotos:</p>";
+            foreach ($this->riders as $rider) {
+                $teamInfo .= $rider . ", ";
+            }
+            return $teamInfo;
         }
+        
+        public function addRider (Rider $rider) {
+            $this->riders[] = $rider;
+        } 
+
+        public function addMechanic (Mechanic $mechanic) {
+            $this->mechanics[] = $mechanic;
+        } 
     }
 ?>

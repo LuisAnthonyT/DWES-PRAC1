@@ -38,6 +38,7 @@
 
         public function results() {
             $gpInfo = "<h2>Circuito  {$this->circuit->__get('name')}</h2> " . "País: ". $this->circuit->__get('country') . "\n Fecha: ". getDateBirthday($this->date) . "<h2>Pilotos</h2>";
+        
             foreach ($this->riders as $position => $rider) {
                 $gpInfo .= "Posición $position: " . $rider->__get('name') . "</br>";
             }

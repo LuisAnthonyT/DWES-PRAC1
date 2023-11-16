@@ -7,8 +7,8 @@
 <?php
     class Person {
     
-    private $name;
-    private $birthday; 
+    protected $name;
+    protected $birthday; 
 
         public function __construct ($name, $birthday) {
             $this->name = $name;
@@ -28,7 +28,7 @@
         }
 
         public function __toString(): string {
-            return $this->name . $this->birthday;
+            return $this->name;
         }
     }
 ?>

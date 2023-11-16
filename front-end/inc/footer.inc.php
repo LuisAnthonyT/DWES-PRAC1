@@ -4,11 +4,9 @@
      * @version 1
      */
 ?>
-<div>
-    <div class="container">
+    <div class="footer">
         <footer>
             <a href="">Privacidad y términos</a>
             <a href="">Contáctanos</a>
         </footer>
     </div>
-</div>

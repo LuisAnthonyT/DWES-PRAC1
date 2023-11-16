@@ -2,8 +2,8 @@
 /* ESTILOS GENERALES */
 body{
     font-family: 'Fira Sans', sans-serif;
-    margin: 0; 
-   
+    margin: 0;
+
 }
 h1,h2,h3,p{
     text-align: center;
@@ -16,6 +16,12 @@ h1,h2,h3,p{
 }
 .bienvenida h1{
     font-weight: bold;
+    margin-top: 40px;
+}
+
+.bienvenida span{
+    display: flex;
+    justify-content: center;
     margin-top: 20px;
 }
 
@@ -24,11 +30,11 @@ h1,h2,h3,p{
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     justify-content: center;
     text-align: center;
-    margin-top: 60px;
+    margin-top: 50px;
 }
 
 /* Estilos para los campos de entrada de texto */
@@ -52,6 +58,7 @@ h1,h2,h3,p{
 
 /* Estilos para el botón de enviar */
 .login input[type="submit"] {
+    margin-top: 8px;;
     background-color: #007bff;
     color: #fff;
     padding: 10px 20px;
@@ -66,15 +73,86 @@ h1,h2,h3,p{
     background-color: #0056b3;
 }
 /*  */
-.container h1 {
-    margin-top: 20px;
-    font-weight: bold;
-}
 
 /* FOOTER */
+.footer{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
 footer{
     position: absolute;
     bottom: 0;
-    text-align: center;
-    
 }
+/* HEADER SI LOGUEADO*/
+.userName{
+    font-weight: bold;
+    color: white;
+    margin-left: 15px;
+    margin-right: 10px;
+    margin-top: 6px;
+}
+
+.close{
+    color: white;
+    margin-left: 15px;
+    margin-right: 10px;
+    margin-top: 6px;
+    text-decoration: none;
+
+}.new{
+    color: white;
+    margin-left: 15px;
+    margin-right: 10px;
+    margin-top: 6px;
+    text-decoration: none;
+
+}
+.sidebar{
+    height: 100%;
+    width: 180px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #292b2c; /* Color de fondo de la barra lateral */
+    padding: 20px;
+    color: #fff; /* Color de texto */
+    top: 63px; /* Altura del encabezado */
+}
+
+.sidebar h4 {
+    margin-bottom: 20px;
+  }
+
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .sidebar li {
+    margin-bottom: 10px;
+  }
+
+  .sidebar a {
+    text-decoration: none;
+    color: #fff; /* Color de enlaces en la barra lateral */
+  }
+  .logo{
+    color: #fff;
+    font-weight: bold;
+    font-size: 2em;
+    text-decoration: none;
+  }
+  /* LOGIN */
+  
+
+  
+
+  /* ERRORES */
+.error{
+    margin: 0 auto;
+    font-weight: bold;
+    color: rgba(209, 24, 24, 0.829);
+    text-align: center;
+    margin-bottom: 5px;
+  }

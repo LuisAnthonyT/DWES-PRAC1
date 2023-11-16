@@ -1,0 +1,22 @@
+/* HEADER */
+.close{
+    color: black;
+    margin-left: 15px;
+    margin-right: 10px;
+    margin-top: 6px;
+    text-decoration: none;
+
+}.new{
+    color: black;
+    margin-left: 15px;
+    margin-right: 10px;
+    margin-top: 6px;
+    text-decoration: none;
+
+}
+.logo{
+    color: black;
+    font-weight: bold;
+    font-size: 2em;
+    text-decoration: none;
+  }

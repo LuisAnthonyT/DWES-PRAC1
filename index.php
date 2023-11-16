@@ -1,127 +1,95 @@
-<?php 
+<?php
     /**
      * @autor Luis Anthony Toapanta Bolaños
      * @version 1
      */
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
+ <!DOCTYPE html>
+ <html lang="es">
+ <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/discografia.css">
-    <title>Discografía</title>
-</head>
-<body>
-    <h1><a href="/index.php">Discografía - Luis Anthony</a></h1>
-    <h4>Grupos</h4>
-    <?php 
-    include_once(__DIR__ . '/inc/connection.inc.php');
-
-    //VALIDACIONES
-    if (!empty($_POST)) {
-    
-        if (empty($_POST['name'])) {
-            $error['name'] = 'El nombre esta vacio';
-        } else {
-            $name = trim($_POST['name']);
-        }
-        if (empty($_POST['genre'])) {
-            $error['genre'] = 'El género esta vacio';
-        } else {
-            $genre = trim($_POST['genre']);
-        }
-        if (empty($_POST['country'])) {
-            $error['country'] = 'El pais esta vacio';
-        } else {
-            $country = trim($_POST['country']);
-        }
-        if (empty($_POST['start'])) {
-            $error['start'] = 'El inicio esta vacio';
-        } else {
-            $start = trim($_POST['start']);
-        }
-
-        //SI NO HAY ERRORES DE VALIDACIÓN, SE EJECUTARA EL INSERT
-        if (empty($error)) {
-
-            $query = $connection->prepare('INSERT INTO GRUPOS (nombre, genero, pais, inicio) VALUES (?, ?, ?, ?);');
-            $query->bindParam(1, $name);
-            $query->bindParam(2, $genre);
-            $query->bindParam(3, $country);
-            $query->bindParam(4, $start);
-            $query->execute();
-            
-            $name = null;
-            $genre = null;
-            $country = null;
-            $start = null;
-
-            echo '<div class="correct">';
-            echo "<span> Nuevo grupo insertado </span>";
-            echo '</div>';
-        }
-    }
-
-      //CONSULTA PARA ELIMINAR X GRUPO
-      if (isset($_GET['accion']) && $_GET['accion'] == 'delete' && isset($_GET['codigoGrupo'])) {
-        $codigoGrupo = $_GET['codigoGrupo'];
-
-        $stmt = $connection->prepare("DELETE FROM grupos WHERE codigo = :codigoGrupo");
-        $stmt->bindParam(':codigoGrupo', $codigoGrupo);
-        $stmt->execute();
-    } 
-
-    //OBTENEMOS TODA LA INFO DE LA TABLA GRUPOS
-    $result = $connection->query("SELECT * FROM grupos;");
-
-    echo "<div class='container'>";
-    echo "<ol class='grupos'>";
-        while ($group = $result->fetch()) {
-            $groupCode = urlencode($group['codigo']);
-            $deleteLink = "/index.php?codigoGrupo=" . $groupCode . "&accion=delete";
-            echo '<li><a href="/group.php?codigoGrupo=' . $groupCode . '">Grupo: ' . $group['nombre'] . '</a>';
-            echo '<a href="' . $deleteLink . '"><img src="/img/papelera.png" alt="Eliminar"></a>';
-            echo '</li>';
-        }
-    echo "</ol>";
-    echo "</div>";
-
-    unset($result);
-    unset($connection);  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="front-end/styles/style.css">
+    <title>Revels</title>
+ </head>
+ <body>
+     <?php
+        include_once(__DIR__ .'/front-end/inc/header.inc.php');
+        include_once(__DIR__ . '/front-end/inc/functions.inc.php');
+        include_once(__DIR__ . '/front-end/inc/functionsCrud.php');
     ?>
+    <div class="bienvenida">
+        <!-- SI NO SE ESTA LOGUEADO -->
+        <h1>BIENVENIDO A REVELS</h1>
+        <span>Registrate ya!</span>
+    </div>
+    <?php
+        //VALIDACIONES
+        if (!empty($_POST)) {
+            if (empty($_POST['user'])) {
+                $errors['user'] = 'El campo usuario esta vacio';
+            } else {
+                if (!validarDatos($exprName, $_POST['user'])) {
+                    $errors['user'] = 'El campo usuario no es válido. Debe contener solo letras';
+                }
+                $user = trim($_POST['user']);
+            }
 
-   <!-- FORMULARIO -->
-   <h4>Añadir Grupos</h4>
-   <form action="#" method="post">
-        Introduce un nombre:
-        <input type="text" name="name" value="<?php echo isset($name) ? $name : null ?>"></br>
-        <?php if (isset($error['name'])) echo "<div class='error'>" . $error['name'] . "</div>"; ?>
+            if (empty($_POST['email'])) {
+                $errors['email'] = 'El campo email esta vacio';
+            } else {
+                if (!validarDatos($exprMail, $_POST['email'])) {
+                    $errors['email'] = 'El campo email no es válido. Debe contener letras o números, un @ y un dominio';
+                }
+                $email = trim($_POST['email']);
+            }
 
-        Introduce un género:
-        <input type="text" name="genre" value="<?php echo isset($genre) ? $genre : null ?>"></br>
-        <?php if (isset($error['genre'])) echo "<div class='error'>" . $error['genre'] . "</div>"; ?>
+            if (empty($_POST['password'])) {
+                $errors['password'] = 'El campo contraseña esta vacio';
+            } else {
+                $password = trim($_POST['password']);
+            }
 
-        Introduce un país:
-        <input type="text" name="country" value="<?php echo isset($country) ? $country : null ?>"></br>
-        <?php if (isset($error['country'])) echo "<div class='error'>" . $error['country'] . "</div>"; ?>
+            if (empty($_POST['password2'])) {
+                $errors['password2'] = 'El campo confirmar contraseña esta vacio';
+            } else {
+                if ($password != $_POST['password2']) {
+                $errors['password2'] = 'Las contraseñas no coinciden';
+                } else {
+                    $password2 = trim($_POST['password2']);
+                }
+            }
+            //SI NO HAY ERRORES, SE CREARÁ UN NUEVO USUARIO
+            if (empty($errors)) { 
+                //La contraseña se encripta
+                $hashedPass = password_hash($password, PASSWORD_DEFAULT);
+                //Se crea el nuevo usuario y se inserta en la BD
+                createUser($user, $hashedPass, $email);
 
-        Introduce el inicio:
-        <select name="start">
-        <?php
-        // Rango de años
-        $startYear = 1900;
-        $currentYear = date('Y');
-        
-        for ($year = $currentYear; $year >= $startYear; $year--) {
-            $selected = isset($start) && $start == $year ? 'selected' : '';
-            echo "<option value=\"$year\" $selected>$year</option>";
+                unset($user, $email, $password, $password2);
+            }
         }
-        ?>
-        </select></br>
-        <?php if (isset($error['start'])) echo "<div class='error'>" . $error['start'] . "</div>"; ?>
-        
-        <input type="submit" value="Añadir">
-   </form>
-</body>
-</html>
+
+    ?>
+    <div>
+    <form class="login" action="#" method="post" enctype="multipart/form-data">
+            Usuario: <input type="text" name="user" value="<?php echo isset($user) ? $user : null ?>">
+            <?php if (isset($errors['user'])) echo '<div class="error"> '.$errors['user'].' </div>'; ?>
+
+            Email: <input type="text" name="email" value="<?php echo isset($email) ? $email : null ?>">
+            <?php if (isset($errors['email'])) echo '<div class="error"> '.$errors['email'].' </div>'; ?>
+
+            Contraseña: <input type="password" name="password">
+            <?php if (isset($errors['password'])) echo '<div class="error"> '.$errors['password'].' </div>'; ?>
+
+            Confirmar contraseña: <input type="password" name="password2">
+            <?php if (isset($errors['password2'])) echo '<div class="error"> '.$errors['password2'].' </div>'; ?>
+
+            <input type="submit" value="Registrarme">
+        </form>
+    </div>
+    <?php include_once(__DIR__ . '/front-end/inc/footer.inc.php'); ?>
+ </body>
+ </html>

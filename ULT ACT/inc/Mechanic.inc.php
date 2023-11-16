@@ -5,6 +5,8 @@
      */
 ?>
 <?php
+    require_once(__DIR__ . '/Person.inc.php');
+    
     class Mechanic extends Person {
     
         private $speciality;
@@ -28,7 +30,7 @@
 
         public function __toString() {
             return parent::__toString() . ' '.
-                $this->speciality;
+                "(Especialidad: " . $this->speciality .")";
         }
     }
 ?>
