@@ -167,6 +167,7 @@ footer{
 
 }
 .card {
+    border-radius: 20px;
     background-color: #fff; /* Cambia el color de fondo según tus preferencias */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega una sombra suave */
     margin-bottom: 20px; /* Espaciado entre tarjetas */
@@ -179,4 +180,34 @@ footer{
 }
 .card:hover {
     transform: scale(1.1); /* Ajusta el valor según sea necesario para el nivel de zoom */
+}
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Estilos para los iconos en el pie de la tarjeta */
+.card-icon {
+    width: 20px; /* Ajusta el tamaño según sea necesario */
+    margin-right: 5px; /* Espaciado entre iconos */
+}
+
+/* Estilos específicos para los iconos a la izquierda */
+.left-icons {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilos específicos para los iconos a la derecha */
+.right-icons {
+    display: flex;
+    align-items: center;
+}
+
+/* ICONOS */
+img{
+    width: 25px;
+    height: 25px;
 }

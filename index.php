@@ -101,20 +101,30 @@
         } else {
             include_once(__DIR__ . '/front-end/inc/functionsCrud.php');
             $userRevels = getRevelsById($_SESSION['userId']);
+            
 
             echo '<div class="containerRevels">';
+            //REVELS DEL USUARIO LOGUEADO
             foreach ($userRevels as $revel) {
                 echo '<div class="card" style="width: 18rem;">';
                   echo '<div class="card-body">';
-                  echo '<h5 class="card-title">Card title</h5>';
+                  echo '<a href="#" class="card-link">'. $_SESSION['userName']. '</a>';
                   echo '<p class="card-text">'. $revel['texto']. ';</p>';
                   echo '<p class="card-text">'. $revel['fecha']. ';</p>';
-                  echo '<a href="#" class="card-link">'. $_SESSION['userName']. '</a>';
+                    echo '<div class="card-footer">';
+                      echo '<div class="left-icons">';
+                        echo '<img src="/front-end/img/like.png" class="card-icon" alt="Like">';
+                        echo '<img src="/front-end/img/dislike.png" class="card-icon" alt="Dislike">';
+                      echo '</div>';
+                    echo '<div class="right-icons">';
+                      $number = getNumberCommentsbyRevel($revel['id']);
+                    echo '<span>'.$number.'</span><img src="/front-end/img/comment.png" class="card-icon" alt="Comment">';
+                  echo '</div>';
+                echo '</div>';         
                   echo '</div>';
                 echo '</div>';
               }
-            echo "<div/>";
-
+            echo '</div>';
         }
 
       include_once(__DIR__ . '/front-end/inc/footer.inc.php'); 

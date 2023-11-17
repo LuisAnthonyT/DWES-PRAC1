@@ -46,7 +46,7 @@
         }
     }
 
-    function getRevelsById (int $id) {
+    function getRevelsById (int $id):array {
         $connection = connectionBD();
 
         $sql = $connection->prepare('SELECT id, texto, fecha FROM revels WHERE userid=:id');
@@ -55,5 +55,27 @@
         $revelsUser = $sql->fetchAll();
 
         return $revelsUser;
+    }
+
+    function getNumberCommentsbyRevel (int $revelId):int {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('SELECT COUNT(*) as count FROM comments WHERE revelid=:revelId');
+        $sql->bindParam(':revelId', $revelId);
+        $sql->execute();
+        $numberComments = $sql->fetch();
+
+        return $numberComments['count'];
+    }
+
+    function getFollowersByUser(int $userId):array {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('SELECT u.usuario FROM follows f JOIN users u ON f.userfollowed = u.id  WHERE f.userid=:userId');
+        $sql->bindParam(':userId', $userId);
+        $sql->execute();
+        $followedUsers = $sql->fetchAll();
+
+        return $followedUsers;
     }
 ?>

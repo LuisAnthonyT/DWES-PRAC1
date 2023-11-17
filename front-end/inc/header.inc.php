@@ -5,7 +5,6 @@
      */
 
      // SI EL USUARIO NO ESTA LOGUEADO 
-     
      if ($_SESSION['rol'] == 'invitado') {
      
       echo '<nav class="navbar bg-dark">';
@@ -31,17 +30,15 @@
       echo '</div>';
     echo '</nav>';
 
+    include_once(__DIR__ . '/functionsCrud.php');
+    $usersFollowed = getFollowersByUser($_SESSION['userId']);
+
     echo '<div class="sidebar">';
     echo '<h4>Seguidos</h4>';
       echo "<li>";
-        echo '<ul>User 1</ul>';
-        echo '<ul>User 2</ul>';
-        echo '<ul>User 2</ul>';
-        echo '<ul>User 4</ul>';
-        echo '<ul>User 1</ul>';
-        echo '<ul>User 2</ul>';
-        echo '<ul>User 2</ul>';
-        echo '<ul>User 4</ul>';
+        foreach ($usersFollowed as $user) {
+          echo '<ul>'.$user['usuario'].'</ul>';
+        }
       echo "</li>";
     echo '</div>';
   }
