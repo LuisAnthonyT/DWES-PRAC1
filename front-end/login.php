@@ -3,6 +3,8 @@
      * @autor Luis Anthony Toapanta Bolaños
      * @version 1
      */
+
+     session_start();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,8 +26,6 @@
     </div>
 
     <?php 
-        session_start();
-
         //VALIDACIONES
         if (!empty($_POST)) {
             if (empty($_POST['user'])) {
@@ -48,6 +48,7 @@
                 } else {
                     $_SESSION['userId'] = $stateLogin;
                     $_SESSION['userName'] = $user;
+                    $_SESSION['rol'] = 'login';
 
                     unset($user, $password);
                     header("Location: /index.php");

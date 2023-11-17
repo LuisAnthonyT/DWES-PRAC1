@@ -5,6 +5,8 @@
      */
     include_once(__DIR__ . '/connection.inc.php');
 
+    //---------------------------------------------------------USUARIOS---------------------------------------------------------//
+
     function createUser (string $user, string $hashedPass, string $email) {
         $connection = connectionBD();
 
@@ -42,5 +44,16 @@
         } else {
             return null; //Usuario no encontrado
         }
+    }
+
+    function getRevelsById (int $id) {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('SELECT id, texto, fecha FROM revels WHERE userid=:id');
+        $sql->bindParam(':id', $id);
+        $sql->execute();
+        $revelsUser = $sql->fetchAll();
+
+        return $revelsUser;
     }
 ?>

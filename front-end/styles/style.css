@@ -156,3 +156,27 @@ footer{
     text-align: center;
     margin-bottom: 5px;
   }
+/* CONTAINER REVELS */
+.containerRevels{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-left: 200px; /* Ajusta según sea necesario para dejar espacio para la barra lateral */
+    padding: 20px; /* Puedes ajustar según sea necesario para agregar espacio alrededor de las tarjetas */
+
+}
+.card {
+    background-color: #fff; /* Cambia el color de fondo según tus preferencias */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agrega una sombra suave */
+    margin-bottom: 20px; /* Espaciado entre tarjetas */
+    margin-right: 20px; /* Espaciado entre tarjetas */
+    transition: transform 0.3s ease; /* Agrega una transición suave */
+}
+.card a{
+    color: #292b2c;
+    font-weight: bold;
+}
+.card:hover {
+    transform: scale(1.1); /* Ajusta el valor según sea necesario para el nivel de zoom */
+}

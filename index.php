@@ -3,6 +3,12 @@
      * @autor Luis Anthony Toapanta Bolaños
      * @version 1
      */
+
+     session_start();
+
+     if (!isset($_SESSION['rol'])) {
+        $_SESSION['rol'] = 'invitado';
+    }
 ?>
  <!DOCTYPE html>
  <html lang="es">
@@ -18,14 +24,7 @@
      <?php
         include_once(__DIR__ .'/front-end/inc/header.inc.php');
         include_once(__DIR__ . '/front-end/inc/functions.inc.php');
-        include_once(__DIR__ . '/front-end/inc/functionsCrud.php');
-    ?>
-    <div class="bienvenida">
-        <!-- SI NO SE ESTA LOGUEADO -->
-        <h1>BIENVENIDO A REVELS</h1>
-        <span>Registrate ya!</span>
-    </div>
-    <?php
+
         //VALIDACIONES
         if (!empty($_POST)) {
             if (empty($_POST['user'])) {
@@ -63,6 +62,7 @@
             }
             //SI NO HAY ERRORES, SE CREARÁ UN NUEVO USUARIO
             if (empty($errors)) { 
+                include_once(__DIR__ . '/front-end/inc/functionsCrud.php');
                 //La contraseña se encripta
                 $hashedPass = password_hash($password, PASSWORD_DEFAULT);
                 //Se crea el nuevo usuario y se inserta en la BD
@@ -72,24 +72,52 @@
             }
         }
 
+        //SI EL USUARIO NO ESTA LOGUEADO SE MOSTRARÁ ESTA VISTA
+        if ($_SESSION['rol'] == 'invitado') {
+            echo '<div class="bienvenida">';
+                echo '<h1>BIENVENIDO A REVELS</h1>';
+                echo '<span>Registrate ya!</span>';
+            echo '</div>';
+
+            //FORMULARIO
+            echo '<div>';
+                echo '<form class="login" action="#" method="post" enctype="multipart/form-data">';
+
+                    echo 'Usuario: <input type="text" name="user" value="' . (isset($user) ? $user : null) . '">';
+                    if (isset($errors['user'])) echo '<div class="error"> '.$errors['user'].' </div>';
+
+                    echo 'Email: <input type="text" name="email" value="'. (isset($email) ? $email : null).'">';
+                    if (isset($errors['email'])) echo '<div class="error"> '.$errors['email'].' </div>'; 
+
+                    echo 'Contraseña: <input type="password" name="password">';
+                    if (isset($errors['password'])) echo '<div class="error"> '.$errors['password'].' </div>';
+
+                    echo 'Confirmar contraseña: <input type="password" name="password2">';
+                    if (isset($errors['password2'])) echo '<div class="error"> '.$errors['password2'].' </div>';
+
+                    echo '<input type="submit" value="Registrarme">';
+                echo '</form>';
+            echo '</div>';
+        } else {
+            include_once(__DIR__ . '/front-end/inc/functionsCrud.php');
+            $userRevels = getRevelsById($_SESSION['userId']);
+
+            echo '<div class="containerRevels">';
+            foreach ($userRevels as $revel) {
+                echo '<div class="card" style="width: 18rem;">';
+                  echo '<div class="card-body">';
+                  echo '<h5 class="card-title">Card title</h5>';
+                  echo '<p class="card-text">'. $revel['texto']. ';</p>';
+                  echo '<p class="card-text">'. $revel['fecha']. ';</p>';
+                  echo '<a href="#" class="card-link">'. $_SESSION['userName']. '</a>';
+                  echo '</div>';
+                echo '</div>';
+              }
+            echo "<div/>";
+
+        }
+
+      include_once(__DIR__ . '/front-end/inc/footer.inc.php'); 
     ?>
-    <div>
-    <form class="login" action="#" method="post" enctype="multipart/form-data">
-            Usuario: <input type="text" name="user" value="<?php echo isset($user) ? $user : null ?>">
-            <?php if (isset($errors['user'])) echo '<div class="error"> '.$errors['user'].' </div>'; ?>
-
-            Email: <input type="text" name="email" value="<?php echo isset($email) ? $email : null ?>">
-            <?php if (isset($errors['email'])) echo '<div class="error"> '.$errors['email'].' </div>'; ?>
-
-            Contraseña: <input type="password" name="password">
-            <?php if (isset($errors['password'])) echo '<div class="error"> '.$errors['password'].' </div>'; ?>
-
-            Confirmar contraseña: <input type="password" name="password2">
-            <?php if (isset($errors['password2'])) echo '<div class="error"> '.$errors['password2'].' </div>'; ?>
-
-            <input type="submit" value="Registrarme">
-        </form>
-    </div>
-    <?php include_once(__DIR__ . '/front-end/inc/footer.inc.php'); ?>
  </body>
  </html>
