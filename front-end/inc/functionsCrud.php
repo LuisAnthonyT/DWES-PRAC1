@@ -122,7 +122,7 @@
     function getNumberFollowersByUser (int $id):int {
         $connection = connectionBD();
 
-        $sql = $connection->prepare('SELECT COUNT(*) as count FROM follows WHERE userid=:id');
+        $sql = $connection->prepare('SELECT COUNT(*) as count FROM follows WHERE userfollowed=:id');
         $sql->bindParam('id', $id);
         $sql->execute();
         $numberFollowers = $sql->fetch();
@@ -150,5 +150,27 @@
         $numberdislikes = $sql->fetch();
 
         return $numberdislikes['count'];
+    }
+
+    function getRevelById (int $idRevel) {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('SELECT texto, fecha FROM revels WHERE id=:idRevel');
+        $sql->bindParam('idRevel', $idRevel);
+        $sql->execute();
+        $revel = $sql->fetchObject();
+
+        return $revel;
+    }
+
+    function getCommentsByRevel (int $idRevel):array {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('SELECT texto, fecha FROM comments WHERE revelid=:idRevel');
+        $sql->bindParam(':idRevel', $idRevel);
+        $sql->execute();
+        $comments = $sql->fetchAll();
+
+        return $comments;
     }
 ?>

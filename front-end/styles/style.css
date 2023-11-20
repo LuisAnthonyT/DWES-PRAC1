@@ -157,15 +157,18 @@ footer{
     margin-bottom: 5px;
   }
 /* CONTAINER REVELS */
-.containerRevels{
+.containerRevels {
     margin-top: 10px;
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente línea si no hay espacio suficiente */
     justify-content: center;
     margin-left: 200px; /* Ajusta según sea necesario para dejar espacio para la barra lateral */
     padding: 20px; /* Puedes ajustar según sea necesario para agregar espacio alrededor de las tarjetas */
-
+    max-width: 1200px; /* Ancho máximo del contenedor */
+    margin-right: auto; /* Centra el contenedor */
+    margin-left: auto; /* Centra el contenedor */
 }
+
 .card {
     border-radius: 20px;
     background-color: #fff; /* Cambia el color de fondo según tus preferencias */
@@ -220,4 +223,21 @@ img{
     margin-left: 200px; /* Ajusta según sea necesario para dejar espacio para la barra lateral */
     padding: 20px; /* Puedes ajustar según sea necesario para agregar espacio alrededor de las tarjetas */
 
+}
+/*  */
+.textoRevel{
+    text-decoration: none;
+}
+.datos{
+    font-weight: bold;
+}
+/* COMMENTS */
+.containerComments {
+    margin-top: 10px;
+    justify-content: center;
+    margin-left: 200px; /* Ajusta según sea necesario para dejar espacio para la barra lateral */
+    padding: 20px; /* Puedes ajustar según sea necesario para agregar espacio alrededor de las tarjetas */
+    max-width: 1200px; /* Ancho máximo del contenedor */
+    margin-right: auto; /* Centra el contenedor */
+    margin-left: auto; /* Centra el contenedor */
 }

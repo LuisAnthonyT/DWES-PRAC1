@@ -31,12 +31,12 @@
         $numberFollowers = getNumberFollowersByUser($_GET['id']);
      
         echo '<div class="containerUser">';
-            echo '<h3>Datos</h3>';
+            echo '<h3 class="datos">Datos</h3>';
                 echo '<span>Usuario: '.$info['usuario'].'</span></br>';
                 echo '<span>Email: '.$info['email'].'</span></br>';
                 echo '<span>Seguidores: '.$numberFollowers.'</span>';
             echo '<hr>';
-            echo '<h3>Revels</h3>';
+            echo '<h3 class="datos">Revels</h3>';
             $userRevels = getRevelsById($info['id']);
             echo '<div class="containerRevels">';
 

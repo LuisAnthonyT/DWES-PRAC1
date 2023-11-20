@@ -113,7 +113,7 @@
                 echo '<div class="card" style="width: 18rem;">';
                   echo '<div class="card-body">';
                   echo '<a href="/front-end/user.php?id=' . $_SESSION['userId'] . '" class="card-link">' . $_SESSION['userName'] . '</a>';
-                  echo '<p class="card-text">'. $revel['texto']. ';</p>';
+                  echo '<a href="/front-end/revel.php?id='.$revel['id'].'"><p class="card-text">'. $revel['texto']. ';</p></a>';
                   echo '<p class="card-text">'. $revel['fecha']. ';</p>';
                     echo '<div class="card-footer">';
                       echo '<div class="left-icons">';
@@ -137,7 +137,7 @@
                 echo '<div class="card" style="width: 18rem;">';
                 echo '<div class="card-body">';
                 echo '<a href="/front-end/user.php?id=' . $revel['id_usuario'] .'" class="card-link">' . $revel['nombre_usuario'] . '</a>';
-                echo '<p class="card-text">' . $revel['texto'] . ';</p>';
+                echo '<a class="textoRevel" href="/front-end/revel.php?idRevel='.$revel['id'].'"><p class="card-text">' . $revel['texto'] . ';</p></a>';
                 echo '<p class="card-text">' . $revel['fecha'] . ';</p>';
                 echo '<div class="card-footer">';
                 echo '<div class="left-icons">';
