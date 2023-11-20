@@ -16,7 +16,7 @@
  </head>
  <body>
     <?php 
-        include_once(__DIR__ . '/inc/header.inc.php');
+        include_once(__DIR__ . '/header.inc.php');
     ?>
     ESTA ES LA PAGINA ACCOUNT
  </body>

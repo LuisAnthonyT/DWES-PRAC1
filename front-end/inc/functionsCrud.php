@@ -71,11 +71,84 @@
     function getFollowersByUser(int $userId):array {
         $connection = connectionBD();
 
-        $sql = $connection->prepare('SELECT u.usuario FROM follows f JOIN users u ON f.userfollowed = u.id  WHERE f.userid=:userId');
+        $sql = $connection->prepare('SELECT u.id, u.usuario FROM follows f JOIN users u ON f.userfollowed = u.id  WHERE f.userid=:userId');
         $sql->bindParam(':userId', $userId);
         $sql->execute();
         $followedUsers = $sql->fetchAll();
 
         return $followedUsers;
+    }
+
+    function getRevelsByFollowedUsers(int $userId): array {
+        $connection = connectionBD();
+        
+        // Obtener usuarios seguidos por el usuario logueado
+        $followedUsers = getFollowersByUser($userId);
+
+        if (!empty($followedUsers)) {
+            // Crear una lista de IDs de usuarios seguidos
+        $followedUserIds = array_column($followedUsers, 'id');
+        
+        // Obtener revels de los usuarios seguidos, ordenados por fecha descendente
+        $sql = $connection->prepare('
+            SELECT r.*, u.id AS id_usuario, u.usuario AS nombre_usuario
+            FROM revels r
+            JOIN users u ON r.userid = u.id
+            WHERE r.userid IN (' . implode(',', $followedUserIds) . ')
+            ORDER BY r.fecha DESC
+        ');
+        $sql->execute();
+        $revelsByFollowedUsers = $sql->fetchAll();
+        
+        return $revelsByFollowedUsers;
+
+        } else {
+            return array();
+        }
+    }
+
+    function getInfoByUser (int $id):array {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('SELECT id,usuario,email  FROM users WHERE id=:id');
+        $sql->bindParam(':id', $id);
+        $sql->execute();
+
+        $infoUser = $sql->fetch(PDO::FETCH_ASSOC);
+
+        return $infoUser;
+    }
+
+    function getNumberFollowersByUser (int $id):int {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('SELECT COUNT(*) as count FROM follows WHERE userid=:id');
+        $sql->bindParam('id', $id);
+        $sql->execute();
+        $numberFollowers = $sql->fetch();
+
+        return $numberFollowers['count'];
+    }
+
+    function getNumberLikesByRevel (int $idRevel):int {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('SELECT COUNT(*) as count FROM likes WHERE revelid=:idRevel');
+        $sql->bindParam('idRevel', $idRevel);
+        $sql->execute();
+        $numberLikes = $sql->fetch();
+
+        return $numberLikes['count'];
+    }
+
+    function getNumberDislikesByRevel (int $idRevel):int {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('SELECT COUNT(*) as count FROM dislikes WHERE revelid=:idRevel');
+        $sql->bindParam('idRevel', $idRevel);
+        $sql->execute();
+        $numberdislikes = $sql->fetch();
+
+        return $numberdislikes['count'];
     }
 ?>

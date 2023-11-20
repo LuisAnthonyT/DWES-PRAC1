@@ -211,3 +211,13 @@ img{
     width: 25px;
     height: 25px;
 }
+
+/* CONTAINER USER */
+.containerUser{
+    background-color: #fff;
+    margin-top: 10px;
+    justify-content: center;
+    margin-left: 200px; /* Ajusta según sea necesario para dejar espacio para la barra lateral */
+    padding: 20px; /* Puedes ajustar según sea necesario para agregar espacio alrededor de las tarjetas */
+
+}
