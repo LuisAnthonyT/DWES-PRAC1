@@ -21,6 +21,23 @@
         include_once(__DIR__ .'/inc/header.inc.php');
         include_once(__DIR__ .'/inc/functionsCrud.php');
 
+        //VALIDACIONES 
+        if (!empty($_POST)) {
+            $_POST['comment'] = trim($_POST['comment']);
+
+            if (empty($_POST['comment'])) {
+                $errors = 'El campo no puede estar vacio';
+            } else {
+                // Comprueba si las variables GET están definidas
+                if (isset($_GET['idRevel']) && isset($_GET['userId'])) {
+                    postComment($_GET['idRevel'], $_GET['userId'], $_POST['comment']);
+                } else {
+                    $errors = 'Se ha producido un problema al subir el comentario';
+                }       
+            }
+        }
+
+        //AQUI SE OBTIENE LOS DATOS DE LA REVEL
         if (isset($_GET['idRevel'])) {
             $revel = getRevelById($_GET['idRevel']);
         }
@@ -51,13 +68,16 @@
             echo '<span>No hay comentarios</span>';
         }
     ?>
+        <!-- FORMULARIO PARA AÑADIR UN COMENTARIO -->
         <hr>
         <h3>Deja tu comentario</h3>
+
         <div class="containerComments">
-        <div class="form-floating">
-            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-            <label for="floatingTextarea2">Comments</label>
-            <button type="submit">Enviar</button>
+            <form class="login" action="#" method="post">
+                <input type="text" name="comment" value="<?php isset($_POST['comment']) ? $_POST['comment'] : null ?>">
+                <?php if(isset($errors)) echo '<div class="error"> '.$errors.' </div>'; ?>
+                <input type="submit" value="Subir">
+            </form>
         </div>
         </div>
     </div>

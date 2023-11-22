@@ -156,7 +156,7 @@
         $connection = connectionBD();
 
         $sql = $connection->prepare('SELECT texto, fecha FROM revels WHERE id=:idRevel');
-        $sql->bindParam('idRevel', $idRevel);
+        $sql->bindParam(':idRevel', $idRevel);
         $sql->execute();
         $revel = $sql->fetchObject();
 
@@ -173,4 +173,56 @@
 
         return $comments;
     }
+
+    function postComment (int $revelId, int $userId, string $comment) {
+        $connection = connectionBD();
+        $date = date('Y-m-d H:i:s');  // Obtener la fecha actual
+
+        $sql = $connection->prepare('INSERT INTO comments (revelid, userid, texto, fecha) VALUES (:revelid, :userid, :texto, :fecha)');
+        $sql->bindParam(':revelid', $revelId);
+        $sql->bindParam(':userid', $userId);
+        $sql->bindParam(':texto', $comment);
+        $sql->bindParam(':fecha', $date);
+        $sql->execute();
+
+    }
+
+    function postRevel (int $userId, string $texto) {
+        $connection = connectionBD();
+        $date = date('Y-m-d H:i:s');  // Obtener la fecha actual
+
+        $sql = $connection->prepare('INSERT INTO revels (userid, texto, fecha) VALUES (:userid, :texto, :fecha)');
+        $sql->bindParam(':userid', $userId);
+        $sql->bindParam(':texto', $texto);
+        $sql->bindParam(':fecha', $date);
+        $sql->execute();
+    }
+
+    function deleteRevelById (int $revelId) {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('DELETE FROM revels WHERE id=:revelId');
+        $sql->bindParam(':revelId', $revelId);
+        $sql->execute();
+    }
+
+    function updateUser (string $user, string $email, int $userId) {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('UPDATE users SET  usuario=:user, email=:email WHERE id=:id');
+        $sql->bindParam(':user', $user);
+        $sql->bindParam(':email', $email);
+        $sql->bindParam(':id', $userId);
+        $sql->execute();
+    }
+
+    function addLike (int $revelId, int $userId) {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('INSERT INTO likes (revelid, userid) VALUES (:revelid, :userid) ');
+        $sql->bindParam(':revelid', $revelId);
+        $sql->bindParam(':userid', $userId);
+        $sql->execute();
+    }
+    
 ?>

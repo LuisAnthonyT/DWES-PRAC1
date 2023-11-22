@@ -100,6 +100,21 @@
             echo '</div>';
         } else {
             include_once(__DIR__ . '/front-end/inc/functionsCrud.php');
+            //LIKES Y DISLIKES
+
+            if (isset($_GET['action'])) {
+                $revelId = $_GET['idRevel'];
+                $userId = $_SESSION['userId'];
+
+            if ($_GET['action'] === 'like') {
+                addLike($userId, $revelId);
+            } elseif ($_GET['action'] === 'dislike') {
+                addDislike($userId, $revelId);
+            }
+
+    // Puedes redirigir o realizar alguna otra acción después de manejar el like/dislike
+}
+
 
             // Revels del usuario logueado
             $userRevels = getRevelsById($_SESSION['userId']);
@@ -113,7 +128,7 @@
                 echo '<div class="card" style="width: 18rem;">';
                   echo '<div class="card-body">';
                   echo '<a href="/front-end/user.php?id=' . $_SESSION['userId'] . '" class="card-link">' . $_SESSION['userName'] . '</a>';
-                  echo '<a href="/front-end/revel.php?id='.$revel['id'].'"><p class="card-text">'. $revel['texto']. ';</p></a>';
+                  echo '<a class="textoRevel" href="/front-end/revel.php?idRevel='.$revel['id'].'&userId='.$_SESSION['userId'].'"><p class="card-text">'. $revel['texto']. '</p></a>';
                   echo '<p class="card-text">'. $revel['fecha']. ';</p>';
                     echo '<div class="card-footer">';
                       echo '<div class="left-icons">';
@@ -137,12 +152,12 @@
                 echo '<div class="card" style="width: 18rem;">';
                 echo '<div class="card-body">';
                 echo '<a href="/front-end/user.php?id=' . $revel['id_usuario'] .'" class="card-link">' . $revel['nombre_usuario'] . '</a>';
-                echo '<a class="textoRevel" href="/front-end/revel.php?idRevel='.$revel['id'].'"><p class="card-text">' . $revel['texto'] . ';</p></a>';
+                echo '<a class="textoRevel" href="/front-end/revel.php?idRevel=' .$revel['id'] . '&userId='.$_SESSION['userId'].'"><p class="card-text">'. $revel['texto']. '</p></a>';
                 echo '<p class="card-text">' . $revel['fecha'] . ';</p>';
                 echo '<div class="card-footer">';
                 echo '<div class="left-icons">';
-                echo '<img src="/front-end/img/like.png" class="card-icon" alt="like">';
-                echo '<img src="/front-end/img/dislike.png" class="card-icon" alt="dislike">';
+                echo '<a href="/index.php?action=like&revelId='.$revel['id'].'"><img src="/front-end/img/like.png" class="card-icon" alt="like"></a>';
+                echo '<a href="/index.php?action=dislike&revelId='.$revel['id'].'"><img src="/front-end/img/dislike.png" class="card-icon" alt="dislike"></a>';
                 echo '</div>';
                 echo '<div class="right-icons">';
                 $number = getNumberCommentsbyRevel($revel['id']);

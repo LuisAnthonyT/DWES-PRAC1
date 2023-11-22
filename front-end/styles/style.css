@@ -178,8 +178,8 @@ footer{
     transition: transform 0.3s ease; /* Agrega una transición suave */
 }
 .card a{
-    color: #292b2c;
     font-weight: bold;
+    color:#687072;
 }
 .card:hover {
     transform: scale(1.1); /* Ajusta el valor según sea necesario para el nivel de zoom */
@@ -227,6 +227,7 @@ img{
 /*  */
 .textoRevel{
     text-decoration: none;
+    color: #292b2c !important;
 }
 .datos{
     font-weight: bold;

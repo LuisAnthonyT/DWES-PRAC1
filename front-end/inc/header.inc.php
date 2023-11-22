@@ -23,8 +23,8 @@
         echo '<form class="d-flex" role="search">';
         echo '<input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">';
         echo '<button class="btn btn-light" type="submit">Buscar</button>';
-        echo '<a class="userName" href="/back-end/inc/account.php">' . $_SESSION['userName'] . '</a>';
-        echo '<a class="new" href= "/front-end/new.php">New</a>';
+        echo '<a class="userName" href="/back-end/account.php">' . $_SESSION['userName'] . '</a>';
+        echo '<a class="new" href= "/front-end/new.php?userId='.$_SESSION['userId'].'">New</a>';
         echo '<a class="close" href= "/?logout=1">Salir</a>';
         echo '</form>';
       echo '</div>';
