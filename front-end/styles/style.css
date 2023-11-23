@@ -192,6 +192,26 @@ footer{
 }
 
 /* Estilos para los iconos en el pie de la tarjeta */
+.like {
+    width: 20px; /* Ajusta el tamaño según sea necesario */
+    margin-right: 5px; /* Espaciado entre iconos */
+    background-color: red;
+}
+.nolike {
+    width: 20px; /* Ajusta el tamaño según sea necesario */
+    margin-right: 5px; /* Espaciado entre iconos */
+   
+}
+.dislike {
+    width: 20px; /* Ajusta el tamaño según sea necesario */
+    margin-right: 5px; /* Espaciado entre iconos */
+    background-color: red;
+}
+.nodislike {
+    width: 20px; /* Ajusta el tamaño según sea necesario */
+    margin-right: 5px; /* Espaciado entre iconos */
+   
+}
 .card-icon {
     width: 20px; /* Ajusta el tamaño según sea necesario */
     margin-right: 5px; /* Espaciado entre iconos */

@@ -100,21 +100,17 @@
             echo '</div>';
         } else {
             include_once(__DIR__ . '/front-end/inc/functionsCrud.php');
+
             //LIKES Y DISLIKES
 
             if (isset($_GET['action'])) {
-                $revelId = $_GET['idRevel'];
-                $userId = $_SESSION['userId'];
 
-            if ($_GET['action'] === 'like') {
-                addLike($userId, $revelId);
-            } elseif ($_GET['action'] === 'dislike') {
-                addDislike($userId, $revelId);
+                if ($_GET['action'] === 'like') {
+                    addRemoveLike($_GET['revelId'], $_SESSION['userId']);
+                } elseif ($_GET['action'] === 'dislike') {
+                    addRemoveDislike($_GET['revelId'], $_SESSION['userId']);
+                }
             }
-
-    // Puedes redirigir o realizar alguna otra acción después de manejar el like/dislike
-}
-
 
             // Revels del usuario logueado
             $userRevels = getRevelsById($_SESSION['userId']);
@@ -156,8 +152,19 @@
                 echo '<p class="card-text">' . $revel['fecha'] . ';</p>';
                 echo '<div class="card-footer">';
                 echo '<div class="left-icons">';
-                echo '<a href="/index.php?action=like&revelId='.$revel['id'].'"><img src="/front-end/img/like.png" class="card-icon" alt="like"></a>';
-                echo '<a href="/index.php?action=dislike&revelId='.$revel['id'].'"><img src="/front-end/img/dislike.png" class="card-icon" alt="dislike"></a>';
+                    $stateLike = likeUserByRevel($revel['id'], $_SESSION['userId']);
+                    if ($stateLike) {
+                        echo '<a href="/index.php?action=like&revelId='.$revel['id'].'"><img src="/front-end/img/like.png" class="like" alt="like"></a>';
+                    } else {
+                        echo '<a href="/index.php?action=like&revelId='.$revel['id'].'"><img src="/front-end/img/like.png" class="nolike" alt="nolike"></a>';
+                    }
+
+                    $stateDislike = dislikeUserByRevel($revel['id'], $_SESSION['userId']);
+                    if ($stateDislike) {
+                        echo '<a href="/index.php?action=dislike&revelId='.$revel['id'].'"><img src="/front-end/img/dislike.png" class="dislike" alt="dislike"></a>';
+                    } else {
+                        echo '<a href="/index.php?action=dislike&revelId='.$revel['id'].'"><img src="/front-end/img/dislike.png" class="nodislike" alt="dislike"></a>';
+                    }
                 echo '</div>';
                 echo '<div class="right-icons">';
                 $number = getNumberCommentsbyRevel($revel['id']);

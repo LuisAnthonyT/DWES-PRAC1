@@ -216,13 +216,90 @@
         $sql->execute();
     }
 
-    function addLike (int $revelId, int $userId) {
+    function addRemoveLike($revelId, $userId) {
         $connection = connectionBD();
 
-        $sql = $connection->prepare('INSERT INTO likes (revelid, userid) VALUES (:revelid, :userid) ');
-        $sql->bindParam(':revelid', $revelId);
-        $sql->bindParam(':userid', $userId);
-        $sql->execute();
+        // Verificar si ya existe un like para esta combinación de usuario y revelación
+        $sqlCheck = $connection->prepare('SELECT * FROM likes WHERE revelid = :revelId AND userid = :userId');
+        $sqlCheck->bindParam(':revelId', $revelId);
+        $sqlCheck->bindParam(':userId', $userId);
+        $sqlCheck->execute();
+        $existingLike = $sqlCheck->fetch();
+
+        if (!$existingLike) {
+            // No existe un like, entonces podemos insertar uno nuevo
+            $sql = $connection->prepare('INSERT INTO likes (revelid, userid) VALUES (:revelId, :userId)');
+            $sql->bindParam(':userId', $userId);
+            $sql->bindParam(':revelId', $revelId);
+            $sql->execute();
+           
+        } else {
+            // Ya existe un like para esta combinación, así que lo eliminamos
+            $sqlDelete = $connection->prepare('DELETE FROM likes WHERE revelid = :revelId AND userid = :userId');
+            $sqlDelete->bindParam(':userId', $userId);
+            $sqlDelete->bindParam(':revelId', $revelId);
+            $sqlDelete->execute();
+        }
     }
     
+    function addRemoveDislike($revelId, $userId) {
+        $connection = connectionBD();
+
+        // Verificar si ya existe un like para esta combinación de usuario y revelación
+        $sqlCheck = $connection->prepare('SELECT * FROM dislikes WHERE revelid = :revelId AND userid = :userId');
+        $sqlCheck->bindParam(':revelId', $revelId);
+        $sqlCheck->bindParam(':userId', $userId);
+        $sqlCheck->execute();
+        $existingLike = $sqlCheck->fetch();
+
+        if (!$existingLike) {
+            // No existe un like, entonces podemos insertar uno nuevo
+            $sql = $connection->prepare('INSERT INTO dislikes (revelid, userid) VALUES (:revelId, :userId)');
+            $sql->bindParam(':userId', $userId);
+            $sql->bindParam(':revelId', $revelId);
+            $sql->execute();
+
+            return 'like';
+           
+        } else {
+            // Ya existe un like para esta combinación, así que lo eliminamos
+            $sqlDelete = $connection->prepare('DELETE FROM dislikes WHERE revelid = :revelId AND userid = :userId');
+            $sqlDelete->bindParam(':userId', $userId);
+            $sqlDelete->bindParam(':revelId', $revelId);
+            $sqlDelete->execute();
+
+            return 'nolike';
+        }
+    }
+
+    function likeUserByRevel ($revelId, $userId):bool {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('SELECT COUNT(*) as count FROM likes WHERE revelid = :revelId AND userid = :userId');
+        $sql->bindParam(':revelId', $revelId);
+        $sql->bindParam(':userId', $userId);
+        $sql->execute();
+        $stateLike = $sql->fetch();
+
+        return $stateLike['count'];
+    }  
+    
+    function dislikeUserByRevel ($revelId, $userId):bool {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('SELECT COUNT(*) as count FROM dislikes WHERE revelid = :revelId AND userid = :userId');
+        $sql->bindParam(':revelId', $revelId);
+        $sql->bindParam(':userId', $userId);
+        $sql->execute();
+        $stateLike = $sql->fetch();
+
+        return $stateLike['count'];
+    }  
+
+    function searchUsers ($user):array {
+        $connection = connectionBD();
+
+
+
+    }
 ?>

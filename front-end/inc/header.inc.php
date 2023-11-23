@@ -20,9 +20,9 @@
     echo '<nav class="navbar bg-dark">';
       echo '<div class="container-fluid">';
         echo '<a href="/index.php" class="logo">Revels</a>';
-        echo '<form class="d-flex" role="search">';
-        echo '<input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">';
-        echo '<button class="btn btn-light" type="submit">Buscar</button>';
+        echo '<form action="/front-end/result.php" method="post" class="d-flex" role="search">';
+        echo '<input class="form-control me-2" type="search" name="user" placeholder="Buscar" aria-label="Search">';
+        echo '<input class="btn btn-light" type="submit" value="Buscar">';
         echo '<a class="userName" href="/back-end/account.php">' . $_SESSION['userName'] . '</a>';
         echo '<a class="new" href= "/front-end/new.php?userId='.$_SESSION['userId'].'">New</a>';
         echo '<a class="close" href= "/?logout=1">Salir</a>';
