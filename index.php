@@ -66,9 +66,16 @@
                 //La contraseña se encripta
                 $hashedPass = password_hash($password, PASSWORD_DEFAULT);
                 //Se crea el nuevo usuario y se inserta en la BD
-                createUser($user, $hashedPass, $email);
+                $userId = createUser($user, $hashedPass, $email);
+
+                $_SESSION['userId'] = $userId;
+                $_SESSION['userName'] = $user;
+                $_SESSION['rol'] = 'login';
 
                 unset($user, $email, $password, $password2);
+                   
+                header("Location: /index.php");
+                exit();
             }
         }
 

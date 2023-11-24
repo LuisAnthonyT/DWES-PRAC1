@@ -7,7 +7,7 @@
 
     //---------------------------------------------------------USUARIOS---------------------------------------------------------//
 
-    function createUser (string $user, string $hashedPass, string $email) {
+    function createUser (string $user, string $hashedPass, string $email):int {
         $connection = connectionBD();
 
         $sql = $connection->prepare('INSERT INTO USERS (usuario, contrasenya, email) VALUES (?,?,?);');
@@ -16,6 +16,10 @@
         $sql->bindParam(2, $hashedPass);
         $sql->bindParam(3, $email);
         $sql->execute();
+
+        $id = $connection->lastInsertId();
+
+        return $id;
     }
 
     function login (string $user, string $password) {

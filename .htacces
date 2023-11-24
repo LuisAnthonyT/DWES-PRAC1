@@ -1,3 +1,8 @@
 RewriteEngine On
 RewriteRule ^album/(\d+)/(\d+)$ album.php?codigoGrupo=$1&codigoAlbum=$2 [L]
 
+RewriteEngine On
+RewriteRule ^categoria/(\d+)$ categoria.php?id=$1 [L]
+
+RewriteEngine On
+RewriteRule ^producto/(\d+)/(\d+)/([^/]+)$ producto.php?id=$1&categoria=$2&nombre=$3 [L]
