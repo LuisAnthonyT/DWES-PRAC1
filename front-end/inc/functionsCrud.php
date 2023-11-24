@@ -201,9 +201,27 @@
     function deleteRevelById (int $revelId) {
         $connection = connectionBD();
 
-        $sql = $connection->prepare('DELETE FROM revels WHERE id=:revelId');
-        $sql->bindParam(':revelId', $revelId);
-        $sql->execute();
+        //AL NO TENER LAS TABLAS DELETE ON CASCADE, TENGO QUE HACERLO ASI :(
+
+        // Eliminar comentarios asociados
+        $sqlDeleteComments = $connection->prepare('DELETE FROM comments WHERE revelid = :revelId');
+        $sqlDeleteComments->bindParam(':revelId', $revelId);
+        $sqlDeleteComments->execute();
+
+        // Eliminar likes asociados
+        $sqlDeleteLikes = $connection->prepare('DELETE FROM likes WHERE revelid = :revelId');
+        $sqlDeleteLikes->bindParam(':revelId', $revelId);
+        $sqlDeleteLikes->execute();
+
+        // Eliminar dislikes asociados
+        $sqlDeleteDislikes = $connection->prepare('DELETE FROM dislikes WHERE revelid = :revelId');
+        $sqlDeleteDislikes->bindParam(':revelId', $revelId);
+        $sqlDeleteDislikes->execute();
+
+        // Finalmente, eliminar la revelación principal
+        $sqlDeleteRevel = $connection->prepare('DELETE FROM revels WHERE id = :revelId');
+        $sqlDeleteRevel->bindParam(':revelId', $revelId);
+        $sqlDeleteRevel->execute();
     }
 
     function updateUser (string $user, string $email, int $userId) {
@@ -296,10 +314,43 @@
         return $stateLike['count'];
     }  
 
-    function searchUsers ($user):array {
+    function searchUsers ($userId, $searchUser):array {
         $connection = connectionBD();
 
+        $sql = $connection->prepare('SELECT id, usuario FROM users WHERE id != :userId AND usuario LIKE :searchUser');
+        $searchUser = '%' . $searchUser . '%'; // Añadir comodines para buscar coincidencias parciales
+        $sql->bindParam(':searchUser', $searchUser);
+        $sql->bindParam(':userId', $userId);
+        $sql->execute();
 
+        // Obtener los resultados
+        $matchingUsers = $sql->fetchAll(PDO::FETCH_ASSOC);
 
+        return $matchingUsers;
+    }
+
+    function followUserById (int $userid, int $userFollowed) {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('INSERT INTO follows (userid, userfollowed) VALUES (:userid, :userfollowed)');
+            $sql->bindParam(':userid', $userid);
+            $sql->bindParam(':userfollowed', $userFollowed);
+            $sql->execute();
+    }
+
+    function getstatefollow (int $userid, int $userFollowed) {
+        $connection = connectionBD();
+
+        $sql = $connection->prepare('SELECT COUNT(*) as count FROM follows WHERE userid=:userid AND userfollowed=:userfollowed');
+            $sql->bindParam(':userid', $userid);
+            $sql->bindParam(':userfollowed', $userFollowed);
+            $sql->execute();
+            $state = $sql->fetch();
+
+            if ($state['count'] > 0){
+                return 'Siguiendo';
+            } else {
+                return 'Seguir';
+            }
     }
 ?>

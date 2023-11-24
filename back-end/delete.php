@@ -11,7 +11,7 @@
          include_once('../front-end/inc/functionsCrud.php');
 
          deleteRevelById($_GET['revelId']);
-         header('location: /back-end/list.php');
+         header('location: /back-end/list.php/');
          exit();
      }
      

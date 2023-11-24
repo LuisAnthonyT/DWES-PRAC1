@@ -24,7 +24,7 @@
     <div class="list">
         <ul>
         <?php 
-            $revelsUser = getRevelsById($_GET['userId']);
+            $revelsUser = getRevelsById($_SESSION['userId']);
     
             foreach ($revelsUser as $revel) {
                 echo '<li>'.$revel['texto'].'<a href="/back-end/delete.php?action=delete&revelId='.$revel['id'].'"><img src="/back-end/img/papelera.png" alt="Eliminar" class="delete-icon"></a>

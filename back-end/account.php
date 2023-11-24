@@ -56,7 +56,7 @@
           <input type="submit" value="Editar">
         </form>
 
-        <a href="/back-end/list.php?userId=<?php echo $_SESSION['userId']; ?>"><span>Listas mis revels</span></a><br>
+        <a href="/back-end/list.php"><span>Listas mis revels</span></a><br>
         <a href=""><span>Eliminar cuenta</span></a>
     </div>
  </body>

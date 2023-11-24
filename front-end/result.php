@@ -7,16 +7,22 @@
      session_start();
      include_once(__DIR__ .'/inc/header.inc.php');
 
-     //VALIDACIONES
+     //SEGUIR USUARIO 
+     if (isset($_GET['action']) && isset($_GET['userId'])) {
+         followUserById($_SESSION['userId'], $_GET['userId']);
+         header("Location: /index.php");
+         exit();
+     }
+
+     //VALIDACIONES BUSQQUEDA
      if (!empty($_POST)) {
         $_POST['user'] = trim($_POST['user']);
         
         if (empty($_POST['user'])) {
             $error = 'No hay datos introducidos';
-        } else {
-            
-        }
+        } 
      }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -33,8 +39,32 @@
     <?php
         if (isset($error)) {
             echo '<div class="error">'.$error.'</div>';
-        }    
+        } else if (isset($_POST['user'])) {
+            $users = searchUsers($_SESSION['userId'],$_POST['user']);
+        } 
     ?>
+    <div class="bienvenida">
+        <h1>Resultados de búsqueda</h1>
+        <div class="list">
+          <ul>
+            <?php 
+            if (!empty($users)) {
+              foreach ($users as $user) {
+                $state = getstatefollow($_SESSION['userId'], $user['id']);
+                if ($state == 'Seguir') {
+                  echo '<li>'.$user['usuario'].'<button type="button" class="btn btn-dark"><a class="seguir" href="/front-end/result.php?action=follow&userId='.$user['id'].'">Seguir</a></button></li>';
+                } else {
+                  echo '<li>'.$user['usuario'].'<button type="button" class="btn btn-dark"><a class="seguir">Siguiendo</a></button></li>';
+                }
+              }
+            } else {
+              echo 'No hay resultados';
+            }
+            ?>
+        </ul>
+      </div>
+    </div>
+
     
     
 </body>
