@@ -57,7 +57,7 @@
         </form>
 
         <a href="/back-end/list.php"><span>Listas mis revels</span></a><br>
-        <a href=""><span>Eliminar cuenta</span></a>
+        <a href="/back-end/cancel.php"><span>Eliminar cuenta</span></a>
     </div>
  </body>
  </html>

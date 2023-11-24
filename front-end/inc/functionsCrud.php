@@ -353,4 +353,57 @@
                 return 'Seguir';
             }
     }
+
+    function deleteAccount (int $userId) {
+        $connection = connectionBD();
+
+        //AL NO TENER LAS TABLAS DELETE ON CASCADE, TENGO QUE HACERLO ASI :(
+
+        // Eliminar seguidos asociados
+        $sqlDeleteFollows = $connection->prepare('DELETE FROM follows WHERE userid = :userId');
+        $sqlDeleteFollows->bindParam(':userId', $userId);
+        $sqlDeleteFollows->execute();
+
+         // Eliminar a los seguidores asociados
+         $sqlDeleteFollows = $connection->prepare('DELETE FROM follows WHERE userfollowed = :userId');
+         $sqlDeleteFollows->bindParam(':userId', $userId);
+         $sqlDeleteFollows->execute();
+
+        // Obtener todos los Revels del usuario
+        $sqlGetRevels = $connection->prepare('SELECT id FROM revels WHERE userid = :userId');
+        $sqlGetRevels->bindParam(':userId', $userId);
+        $sqlGetRevels->execute();
+        $revels = $sqlGetRevels->fetchAll(PDO::FETCH_ASSOC);
+
+        // Eliminar likes, dislikes y comments de cada Revel
+        foreach ($revels as $revel) {
+        $revelId = $revel['id'];
+
+            // Eliminar likes
+            $sqlDeleteLikes = $connection->prepare('DELETE FROM likes WHERE revelid = :revelId');
+            $sqlDeleteLikes->bindParam(':revelId', $revelId);
+            $sqlDeleteLikes->execute();
+
+            // Eliminar dislikes
+            $sqlDeleteDislikes = $connection->prepare('DELETE FROM dislikes WHERE revelid = :revelId');
+            $sqlDeleteDislikes->bindParam(':revelId', $revelId);
+            $sqlDeleteDislikes->execute();
+
+            // Eliminar comentarios
+            $sqlDeleteComments = $connection->prepare('DELETE FROM comments WHERE revelid = :revelId');
+            $sqlDeleteComments->bindParam(':revelId', $revelId);
+            $sqlDeleteComments->execute();
+        }
+
+        // Eliminar Revels del usuario
+        $sqlDeleteRevels = $connection->prepare('DELETE FROM revels WHERE userid = :userId');
+        $sqlDeleteRevels->bindParam(':userId', $userId);
+        $sqlDeleteRevels->execute();
+
+        // Eliminar usuario
+        $sqlDeleteUser = $connection->prepare('DELETE FROM users WHERE id = :userId');
+        $sqlDeleteUser->bindParam(':userId', $userId);
+        $sqlDeleteUser->execute();
+
+    }
 ?>
