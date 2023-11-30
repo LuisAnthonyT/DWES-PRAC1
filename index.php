@@ -1,190 +1,109 @@
 <?php
-    /**
-     * @autor Luis Anthony Toapanta Bolaños
-     * @version 1
-     */
+/**
+ *	Script que implementa un carrito de la compra con variables de sesión
+ * 
+ *	@author Álex Torres
+ */
+session_start();
 
-     session_start();
+if (!isset($_SESSION['rol'])) {
+	$_SESSION['rol'] = 'invitado';
+}
 
-     if (!isset($_SESSION['rol'])) {
-        $_SESSION['rol'] = 'invitado';
-    }
+if(isset($_GET['add']) || isset($_GET['subtract']) || isset($_GET['remove'])) {
+	if(isset($_GET['add']) && $_GET['add']!='') {
+		if(!isset($_SESSION['basket'][$_GET['add']]))
+			$_SESSION['basket'][$_GET['add']] = 1;
+		else
+			$_SESSION['basket'][$_GET['add']] += 1;
+	}
+	if(isset($_GET['subtract']) && $_GET['subtract']!='' && isset($_SESSION['basket'][$_GET['subtract']])) {
+		$_SESSION['basket'][$_GET['subtract']] -= 1;
+		if($_SESSION['basket'][$_GET['subtract']]<=0)
+			unset($_SESSION['basket'][$_GET['subtract']]);
+	}
+	if(isset($_GET['remove']) && $_GET['remove']!='' && isset($_SESSION['basket'][$_GET['remove']])) {
+		unset($_SESSION['basket'][$_GET['remove']]);
+	}
+
+	//header('location: /');
+}
+//IDIOMAS
+if (isset($_COOKIE['language'])) {
+	require_once(__DIR__ . '/includes/lang/'.$_COOKIE['language'].'.inc.php');
+}
+
 ?>
- <!DOCTYPE html>
- <html lang="es">
- <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="front-end/styles/style.css">
-    <title>Revels</title>
- </head>
- <body>
-     <?php
-        include_once(__DIR__ .'/front-end/inc/header.inc.php');
-        include_once(__DIR__ . '/front-end/inc/functions.inc.php');
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title><?$message['head.title']?></title>
+		<link rel="stylesheet" href="/css/style.css">
+	</head>
+	<body>
+		<?php
+			require_once('includes/header.inc.php');
 
-        //VALIDACIONES
-        if (!empty($_POST)) {
-            if (empty($_POST['user'])) {
-                $errors['user'] = 'El campo usuario esta vacio';
-            } else {
-                if (!validarDatos($exprName, $_POST['user'])) {
-                    $errors['user'] = 'El campo usuario no es válido. Debe contener solo letras';
-                }
-                $user = trim($_POST['user']);
-            }
+			if ($_SESSION['rol'] == 'invitado') {
+		?>
+		<!-- USUARIO NO LOGUEADO -->
+		<form action="signup.php" method="post">
+    <?= $message['index.form.user']?><input type="text" name="user" value=""></br>
+		<?= $message['index.form.mail']?><input type="text" name="email" value=""></br>
+    <?= $message['index.form.password']?><input type="password" name="password" value=""></br>
+		<?= $message['index.form.password2']?><input type="password" name="password2" value=""></br>
 
-            if (empty($_POST['email'])) {
-                $errors['email'] = 'El campo email esta vacio';
-            } else {
-                if (!validarDatos($exprMail, $_POST['email'])) {
-                    $errors['email'] = 'El campo email no es válido. Debe contener letras o números, un @ y un dominio';
-                }
-                $email = trim($_POST['email']);
-            }
+			<input type="submit" value="<?= $message['index.form.submit']?>">
+		</form>
+		<a href="/login.php"><?= $message['index.login']?></a></br>
+		<a href="/sales.php"><img  class="sales" src="/img/sales.png" alt="sales"></a>
+		<?php 
+			} else if ($_SESSION['rol'] == 'customer' || $_SESSION['rol'] == 'admin' ) {
+		?>
+		<!-- USUSARIO LOGUEADO -->
+		<div id="carrito">
+			<?php
+			if(!isset($_SESSION['basket']))
+				$products = 0;
+			else
+				$products = count($_SESSION['basket']);
+			echo $products;
+			echo ' producto';
+			if($products>1)
+				echo 's';
+			?>
+			en el carrito.
 
-            if (empty($_POST['password'])) {
-                $errors['password'] = 'El campo contraseña esta vacio';
-            } else {
-                $password = trim($_POST['password']);
-            }
+			<a href="/basket.php" class="boton">Ver carrito</a>	
+		</div>
+		
+		<section class="productos">
+			<?php
+			require_once('includes/dbconnection.inc.php');
+			$connection = getDBConnection();
+			$products = $connection->query('SELECT * FROM products;', PDO::FETCH_OBJ);
+			
+			foreach($products as $product) {
+				echo '<article class="producto">';
+					echo '<h2>'. $product->name .'</h2>';
+					echo '<span>('. $product->category .')</span>';
+					echo '<img src="/img/products/'. $product->image .'" alt="'. $product->name .'" class="imgProducto"><br>';
+					echo '<span>'. $product->price .' €</span><br>';
+					echo '<span class="botonesCarrito">';
+						echo '<a href="/add/'.$product->id .'" class="productos"><img src="/img/mas.png" alt="añadir 1"></a>';
+						echo '<a href="/subtract/'.$product->id .'" class="productos"><img src="/img/menos.png" alt="quitar 1"></a>';
+						echo '<a href="/remove/'.$product->id .'" class="productos"><img src="/img/papelera.png" alt="quitar todos"></a>';
+					echo '</span>';
+					echo '<span>Stock: '. $product->stock .'</span>';
+				echo '</article>';
+			}
 
-            if (empty($_POST['password2'])) {
-                $errors['password2'] = 'El campo confirmar contraseña esta vacio';
-            } else {
-                if ($password != $_POST['password2']) {
-                $errors['password2'] = 'Las contraseñas no coinciden';
-                } else {
-                    $password2 = trim($_POST['password2']);
-                }
-            }
-            //SI NO HAY ERRORES, SE CREARÁ UN NUEVO USUARIO
-            if (empty($errors)) { 
-                include_once(__DIR__ . '/front-end/inc/functionsCrud.php');
-                //La contraseña se encripta
-                $hashedPass = password_hash($password, PASSWORD_DEFAULT);
-                //Se crea el nuevo usuario y se inserta en la BD
-                $userId = createUser($user, $hashedPass, $email);
-
-                $_SESSION['userId'] = $userId;
-                $_SESSION['userName'] = $user;
-                $_SESSION['rol'] = 'login';
-
-                unset($user, $email, $password, $password2);
-                   
-                header("Location: /index.php");
-                exit();
-            }
-        }
-
-        //SI EL USUARIO NO ESTA LOGUEADO SE MOSTRARÁ ESTA VISTA
-        if ($_SESSION['rol'] == 'invitado') {
-            echo '<div class="bienvenida">';
-                echo '<h1>BIENVENIDO A REVELS</h1>';
-                echo '<span>Registrate ya!</span>';
-            echo '</div>';
-
-            //FORMULARIO
-            echo '<div>';
-                echo '<form class="login" action="#" method="post" enctype="multipart/form-data">';
-
-                    echo 'Usuario: <input type="text" name="user" value="' . (isset($user) ? $user : null) . '">';
-                    if (isset($errors['user'])) echo '<div class="error"> '.$errors['user'].' </div>';
-
-                    echo 'Email: <input type="text" name="email" value="'. (isset($email) ? $email : null).'">';
-                    if (isset($errors['email'])) echo '<div class="error"> '.$errors['email'].' </div>'; 
-
-                    echo 'Contraseña: <input type="password" name="password">';
-                    if (isset($errors['password'])) echo '<div class="error"> '.$errors['password'].' </div>';
-
-                    echo 'Confirmar contraseña: <input type="password" name="password2">';
-                    if (isset($errors['password2'])) echo '<div class="error"> '.$errors['password2'].' </div>';
-
-                    echo '<input type="submit" value="Registrarme">';
-                echo '</form>';
-            echo '</div>';
-        } else {
-            include_once(__DIR__ . '/front-end/inc/functionsCrud.php');
-
-            //LIKES Y DISLIKES
-
-            if (isset($_GET['action'])) {
-
-                if ($_GET['action'] === 'like') {
-                    addRemoveLike($_GET['revelId'], $_SESSION['userId']);
-                } elseif ($_GET['action'] === 'dislike') {
-                    addRemoveDislike($_GET['revelId'], $_SESSION['userId']);
-                }
-            }
-
-            // Revels del usuario logueado
-            $userRevels = getRevelsById($_SESSION['userId']);
-
-            // Revels de los usuarios seguidos por el usuario logueado
-            $followedRevels = getRevelsByFollowedUsers($_SESSION['userId']);
-            
-            echo '<div class="containerRevels">';
-            //REVELS DEL USUARIO LOGUEADO
-            foreach ($userRevels as $revel) {
-                echo '<div class="card" style="width: 18rem;">';
-                  echo '<div class="card-body">';
-                  echo '<a href="/front-end/user.php?id=' . $_SESSION['userId'] . '" class="card-link">' . $_SESSION['userName'] . '</a>';
-                  echo '<a class="textoRevel" href="/front-end/revel.php?idRevel='.$revel['id'].'&userId='.$_SESSION['userId'].'"><p class="card-text">'. $revel['texto']. '</p></a>';
-                  echo '<p class="card-text">'. $revel['fecha']. ';</p>';
-                    echo '<div class="card-footer">';
-                      echo '<div class="left-icons">';
-                        echo '<img src="/front-end/img/like.png" class="card-icon" alt="like">';
-                        echo '<img src="/front-end/img/dislike.png" class="card-icon" alt="dislike">';
-                      echo '</div>';
-                    echo '<div class="right-icons">';
-                      $number = getNumberCommentsbyRevel($revel['id']);
-                    echo '<span>'.$number.'</span><img src="/front-end/img/comment.png" class="card-icon" alt="Comment">';
-                  echo '</div>';
-                echo '</div>';         
-                  echo '</div>';
-                echo '</div>';
-              }
-
-            echo '</div>';
-
-            echo '<div class="containerRevels">';
-            // Revels de los usuarios seguidos
-            foreach ($followedRevels as $revel) {
-                echo '<div class="card" style="width: 18rem;">';
-                echo '<div class="card-body">';
-                echo '<a href="/front-end/user.php?id=' . $revel['id_usuario'] .'" class="card-link">' . $revel['nombre_usuario'] . '</a>';
-                echo '<a class="textoRevel" href="/front-end/revel.php?idRevel=' .$revel['id'] . '&userId='.$_SESSION['userId'].'"><p class="card-text">'. $revel['texto']. '</p></a>';
-                echo '<p class="card-text">' . $revel['fecha'] . ';</p>';
-                echo '<div class="card-footer">';
-                echo '<div class="left-icons">';
-                    $stateLike = likeUserByRevel($revel['id'], $_SESSION['userId']);
-                    if ($stateLike) {
-                        echo '<a href="/index.php?action=like&revelId='.$revel['id'].'"><img src="/front-end/img/like.png" class="like" alt="like"></a>';
-                    } else {
-                        echo '<a href="/index.php?action=like&revelId='.$revel['id'].'"><img src="/front-end/img/like.png" class="nolike" alt="nolike"></a>';
-                    }
-
-                    $stateDislike = dislikeUserByRevel($revel['id'], $_SESSION['userId']);
-                    if ($stateDislike) {
-                        echo '<a href="/index.php?action=dislike&revelId='.$revel['id'].'"><img src="/front-end/img/dislike.png" class="dislike" alt="dislike"></a>';
-                    } else {
-                        echo '<a href="/index.php?action=dislike&revelId='.$revel['id'].'"><img src="/front-end/img/dislike.png" class="nodislike" alt="dislike"></a>';
-                    }
-                echo '</div>';
-                echo '<div class="right-icons">';
-                $number = getNumberCommentsbyRevel($revel['id']);
-                echo '<span>' . $number . '</span><img src="/front-end/img/comment.png" class="card-icon" alt="Comment">';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-            }   
-            echo '</div>';
-        }
-
-      include_once(__DIR__ . '/front-end/inc/footer.inc.php'); 
-    ?>
- </body>
- </html>
+			unset($products);
+			unset($connection);
+		}
+			?>			
+		</section>		
+	</body>
+</html>

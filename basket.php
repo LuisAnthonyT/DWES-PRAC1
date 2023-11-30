@@ -57,7 +57,7 @@ session_start();
 			}
 			?>
 			<br><br>
-			<a href="/index" class="boton">Volver</a>				
+			<a href="/index.php" class="boton">Volver</a>				
 		</section>
 	</body>
 </html>
